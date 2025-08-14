@@ -1,0 +1,17 @@
+{
+    "id": 123,
+    "name": "John Doe",
+    "phone": "9876543210",
+    "is_existing_customer": true,
+    "has_active_subscription": false
+    ,
+    "subscription_details": {
+      "product": "Milk",
+      "quantity_per_day": "1 liter",
+      "delivery_time": "6:00 AM",
+      "start_date": "2025-05-01",
+      "end_date": "2025-06-01",
+      "status": "active"
+    }
+  }
+

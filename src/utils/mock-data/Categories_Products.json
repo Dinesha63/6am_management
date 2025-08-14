@@ -1,0 +1,48 @@
+{
+  "categories": [
+    {
+      "category_name": "Dairy Products",
+      "category_id": "C001",
+	  "products" : [
+		  {
+			  "product_id": "P0001",
+			  "main_product_name": "Milk",
+			  "image_url": "https://example.com/images/milk.jpg"
+		  },
+		  {
+			  "product_id": "P0002",
+			  "main_product_name": "Ghee",
+			  "image_url": "https://example.com/images/ghee.jpg"
+		  },
+		  {
+			  "product_id": "P0003",
+			  "main_product_name": "Panner",
+			  "image_url": "https://example.com/images/panner.jpg"
+		  },
+		  {
+			  "product_id": "P0004",
+			  "main_product_name": "Flavoured Milks",
+			  "image_url": "https://example.com/images/ghee/flavoured_milks.jpg"
+		  },
+		  {
+			  "product_id": "P0005",
+			  "main_product_name": "Butter",
+			  "image_url": "https://example.com/images/ghee/butter.jpg"
+		  },
+		  {
+			  "product_id": "P0006",
+			  "main_product_name": "Sprouts",
+			  "image_url": "https://example.com/images/ghee/sprouts.jpg"
+		  }		
+	  ]
+    },
+	{
+      "category_name": "Fruits",
+      "category_id": "C002"
+    },
+	{
+      "category_name": "Vegetables",
+      "category_id": "C003"
+    }
+  ]
+}

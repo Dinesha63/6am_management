@@ -1,0 +1,118 @@
+{
+  "categories": [
+    {
+      "category_name": "Dairy Products",
+      "category_id": "C001",
+      "products": [
+        {
+          "product_name": "Milk Products",
+          "product_id": "P001",
+          "product_skus": [
+            {
+              "product_skewId": "PSK001",
+              "product_skewName": "1/2 Ltr pocket",
+              "price": 15,
+              "likes": 200,
+              "measurement": "ltr",
+              "image_url": "https://example.com/images/milk/milk1.jpg"
+            },
+            {
+              "product_skewId": "PSK002",
+              "product_skewName": "1 Ltr pocket",
+              "price": 25,
+              "likes": 180,
+              "measurement": "ltr",
+              "image_url": "https://example.com/images/milk/milk2.jpg"
+            }
+          ]
+        },
+        {
+          "product_name": "Ghee Products",
+          "product_id": "P002",
+          "product_skus": [
+            {
+              "product_skewId": "PSK001",
+              "product_skewName": "1/2 Ltr Ghee",
+              "price": 150,
+              "likes": 200,
+              "measurement": "ltr",
+              "image_url": "https://example.com/images/Ghee/ghee1.jpg"
+            },
+            {
+              "product_skewId": "PSK002",
+              "product_skewName": "1 Ltr Ghee",
+              "price": 250,
+              "likes": 180,
+              "measurement": "ltr",
+              "image_url": "https://example.com/images/Ghee/ghee2.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "category_name": "Vegetables",
+      "category_id": "C002",
+      "products": [
+        {
+          "product_name": "Vegetables",
+          "product_id": "P001",
+          "product_skus": [
+            {
+              "product_skewId": "PSK001",
+              "product_skewName": "Carrot",
+              "price": 40,
+              "likes": 90,
+              "measurement": "kg",
+              "image_url": "https://example.com/images/Ghee/ghee2.jpg"
+            },
+            {
+              "product_skewId": "PSK002",
+              "product_skewName": "beans",
+              "price": 60,
+              "likes": 100,
+              "measurement": "kg",
+              "image_url": "https://example.com/images/Ghee/ghee2.jpg"
+            },
+            {
+              "product_skewId": "PSK003",
+              "product_skewName": "bavani brinjal",
+              "price": 40,
+              "likes": 80,
+              "measurement": "kg",
+              "image_url": "https://example.com/images/Ghee/ghee2.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "category_name": "Fruits",
+      "category_id": "C003",
+      "products": [
+        {
+          "product_name": "Fruits",
+          "product_id": "P001",
+          "product_skus": [
+            {
+              "product_skewId": "PSK001",
+              "product_skewName": "Orange",
+              "price": 110,
+              "likes": 160,
+              "measurement": "kg",
+              "image_url": "https://example.com/images/Ghee/ghee2.jpg"
+            },
+            {
+              "product_skewId": "PSK002",
+              "product_skewName": "mango",
+              "price": 120,
+              "likes": 140,
+              "measurement": "kg",
+              "image_url": "https://example.com/images/Ghee/ghee2.jpg"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

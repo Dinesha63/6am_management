@@ -1,0 +1,104 @@
+diff --git a/node_modules/react-native-google-places-autocomplete/GooglePlacesAutocomplete.js b/node_modules/react-native-google-places-autocomplete/GooglePlacesAutocomplete.js
+index 60836de..0eccdf6 100644
+--- a/node_modules/react-native-google-places-autocomplete/GooglePlacesAutocomplete.js
++++ b/node_modules/react-native-google-places-autocomplete/GooglePlacesAutocomplete.js
+@@ -328,17 +328,19 @@ export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
+       };
+ 
+       if (props.isNewPlacesAPI) {
+-        request.open(
+-          'GET',
+-          `${url}/v1/places/${rowData.place_id}?` +
+-            Qs.stringify({
+-              key: props.query.key,
+-              sessionToken,
+-              fields: props.fields,
+-            }),
+-        );
+-        setSessionToken(uuidv4());
+-      } else {
++  request.open(
++    'GET',
++    `${url}/v1/places/${rowData.place_id}?` +
++      Qs.stringify({
++        key: props.query.key,
++        sessionToken,
++        fields: props.fields || 'id,name,formatted_address,geometry',
++      }),
++  );
++  setSessionToken(uuidv4());
++}
++
++       else {
+         request.open(
+           'GET',
+           `${url}/place/details/json?` +
+@@ -354,7 +356,14 @@ export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
+       request.withCredentials = requestShouldUseWithCredentials();
+       setRequestHeaders(request, getRequestHeaders(props.requestUrl));
+ 
+-      request.send();
++      request.send(
++  key,
++  text,
++  sessionToken,
++  locationbias || '',
++  types || '',
++  '',     
++);
+     } else if (rowData.isCurrentLocation === true) {
+       // display loader
+       _enableRowLoader(rowData);
+@@ -539,7 +548,14 @@ export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
+       request.withCredentials = requestShouldUseWithCredentials();
+       setRequestHeaders(request, getRequestHeaders(props.requestUrl));
+ 
+-      request.send();
++      request.send(
++  key,
++  text,
++  sessionToken,
++  locationbias || '',
++  types || '',
++  '',     
++);
+     } else {
+       _results = [];
+       setDataSource(buildRowsFromResults([]));
+@@ -626,19 +642,24 @@ export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
+ 
+       request.withCredentials = requestShouldUseWithCredentials();
+       setRequestHeaders(request, getRequestHeaders(props.requestUrl));
+-
+       if (props.isNewPlacesAPI) {
+-        const { key, locationbias, types, ...rest } = props.query;
+-        request.send(
+-          JSON.stringify({
+-            input: text,
+-            sessionToken,
+-            ...rest,
+-          }),
+-        );
+-      } else {
+-        request.send();
+-      }
++  const { key, locationbias, types, ...rest } = props.query;
++
++  request.send(
++    key ?? '',
++    text ?? '',
++    sessionToken ?? '',
++    locationbias ?? '',
++    types ?? '',
++    '', // empty string fallback
++    1000 // timeout as number
++  );
++
++} else {
++    const safeText = typeof text === 'string' ? text : '';
++    request.send('',safeText ?? '', '','','','',1000);
++}
++
+     } else {
+       _results = [];
+       setDataSource(buildRowsFromResults([]));

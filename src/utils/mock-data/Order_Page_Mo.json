@@ -1,0 +1,216 @@
+{
+  "orders": {
+    "processing": [
+      {
+        "orderId": "#3100P",
+        "date": "12/02/2025",
+        "status": "Processing",
+        "items": [
+          {
+            "productName": "Milk",
+            "storeName": "Dairy Delight",
+            "quantity": "1 Litre",
+            "price": 50.0
+          },
+          {
+            "productName": "Paneer",
+            "storeName": "Paneer House",
+            "quantity": "250 g",
+            "price": 70.0
+          },
+          {
+            "productName": "Butter",
+            "storeName": "Dairy Fresh",
+            "quantity": "200 g",
+            "price": 90.0
+          }
+        ]
+      },
+      {
+        "orderId": "#3200P",
+        "date": "14/04/2025",
+        "status": "Processing",
+        "items": [
+          {
+            "productName": "Milk",
+            "storeName": "Dairy Delight",
+            "quantity": "1 Litre",
+            "price": 50.0
+          },
+          {
+            "productName": "Paneer",
+            "storeName": "Paneer House",
+            "quantity": "250 g",
+            "price": 70.0
+          },
+          {
+            "productName": "Butter",
+            "storeName": "Dairy Fresh",
+            "quantity": "200 g",
+            "price": 90.0
+          }
+        ]
+      }
+    ],
+    "shipped": [
+      {
+        "orderId": "#3101S",
+        "date": "13/02/2025",
+        "status": "Shipped",
+        "items": [
+          {
+            "productName": "Cheese",
+            "storeName": "Cheddar World",
+            "quantity": "250 g",
+            "price": 110.0
+          },
+          {
+            "productName": "Curd",
+            "storeName": "Cool Creamery",
+            "quantity": "500 ml",
+            "price": 40.0
+          },
+          {
+            "productName": "Flavored Milk",
+            "storeName": "Milko",
+            "quantity": "300 ml",
+            "price": 35.0
+          }
+        ]
+      },
+      {
+        "orderId": "#3102S",
+        "date": "14/02/2025",
+        "status": "Shipped",
+        "items": [
+          {
+            "productName": "Cheese",
+            "storeName": "Cheddar World",
+            "quantity": "250 g",
+            "price": 110.0
+          },
+          {
+            "productName": "Curd",
+            "storeName": "Cool Creamery",
+            "quantity": "500 ml",
+            "price": 40.0
+          },
+          {
+            "productName": "Flavored Milk",
+            "storeName": "Milko",
+            "quantity": "300 ml",
+            "price": 35.0
+          }
+        ]
+      }
+    ],
+    "completed": [
+      {
+        "orderId": "#3102C",
+        "date": "14/02/2025",
+        "status": "Completed",
+        "items": [
+          {
+            "productName": "Product A",
+            "storeName": "Store X",
+            "quantity": "2 Litre",
+            "price": 60.0
+          },
+          {
+            "productName": "Product B",
+            "storeName": "Store Y",
+            "quantity": "2 Kg",
+            "price": 60.0
+          },
+          {
+            "productName": "Product C",
+            "storeName": "Oiliness Store",
+            "quantity": "1 Kg",
+            "price": 80.0
+          }
+        ]
+      },
+      {
+        "orderId": "#3103C",
+        "date": "15/02/2025",
+        "status": "Completed",
+        "items": [
+          {
+            "productName": "Product A",
+            "storeName": "Store X",
+            "quantity": "2 Litre",
+            "price": 60.0
+          },
+          {
+            "productName": "Product B",
+            "storeName": "Store Y",
+            "quantity": "2 Kg",
+            "price": 60.0
+          },
+          {
+            "productName": "Product C",
+            "storeName": "Oiliness Store",
+            "quantity": "1 Kg",
+            "price": 80.0
+          }
+        ]
+      }
+    ],
+    "canceled": [
+      {
+        "orderId": "#3103X",
+        "date": "15/02/2025",
+        "status": "Canceled",
+        "items": [
+          {
+            "productName": "Lassi",
+            "storeName": "Lassi Zone",
+            "quantity": "250 ml",
+            "price": 25.0
+          },
+          {
+            "productName": "Ghee",
+            "storeName": "Ghee Ghar",
+            "quantity": "500 ml",
+            "price": 180.0
+          },
+          {
+            "productName": "Ice Cream",
+            "storeName": "Cold Treats",
+            "quantity": "500 ml",
+            "price": 120.0
+          }
+        ]
+      },
+      {
+        "orderId": "#3103X",
+        "date": "15/02/2025",
+        "status": "Canceled",
+        "items": [
+          {
+            "productName": "Lassi",
+            "storeName": "Lassi Zone",
+            "quantity": "250 ml",
+            "price": 25.0
+          },
+          {
+            "productName": "Ghee",
+            "storeName": "Ghee Ghar",
+            "quantity": "500 ml",
+            "price": 180.0
+          },
+          {
+            "productName": "Ice Cream",
+            "storeName": "Cold Treats",
+            "quantity": "500 ml",
+            "price": 120.0
+          }
+        ],
+        "Completed": null,
+        "Canceled": []
+
+      } 
+    ]
+  }
+}
+

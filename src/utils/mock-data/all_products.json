@@ -1,0 +1,527 @@
+[
+  {
+    "id": 1,
+    "name": "Milk",
+    "source": "Thus morning at 6 am",
+    "star_rating": 4.7,
+    "image": "../assets/milk_img.png",
+    "mrp": 50,
+    "today_price": 45,
+    "subdivisions": [
+      {
+        "id": 101,
+        "name": "Full Cream",
+        "image": "../assets/milk_img.png",
+        "mrp": 50,
+        "today_price": 45
+      },
+      {
+        "id": 102,
+        "name": "Toned Milk",
+        "image": "https://example.com/images/toned_milk.png",
+        "mrp": 48,
+        "today_price": 44
+      },
+      {
+        "id": 103,
+        "name": "Cow Milk",
+        "image": "https://example.com/images/cow_milk.png",
+        "mrp": 52,
+        "today_price": 46
+      },
+      {
+        "id": 104,
+        "name": "Buffalo Milk",
+        "image": "https://example.com/images/buffalo_milk.png",
+        "mrp": 55,
+        "today_price": 50
+      },
+      {
+        "id": 105,
+        "name": "Organic Milk",
+        "image": "https://example.com/images/organic_milk.png",
+        "mrp": 60,
+        "today_price": 55
+      },
+      {
+        "id": 106,
+        "name": "Skimmed Milk",
+        "image": "https://example.com/images/skimmed_milk.png",
+        "mrp": 45,
+        "today_price": 42
+      },
+      {
+        "id": 107,
+        "name": "A2 Milk",
+        "image": "https://example.com/images/a2_milk.png",
+        "mrp": 65,
+        "today_price": 60
+      },
+      {
+        "id": 108,
+        "name": "Flavored Milk",
+        "image": "https://example.com/images/flavored_milk.png",
+        "mrp": 50,
+        "today_price": 47
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Ghee",
+    "source": "Thus morning at 6 AM",
+    "star_rating": 4.6,
+    "image": "https://example.com/images/ghee.png",
+    "mrp": 500,
+    "today_price": 460,
+    "subdivisions": [
+      {
+        "id": 201,
+        "name": "Cow Ghee",
+        "image": "https://example.com/images/cow_ghee.png",
+        "mrp": 510,
+        "today_price": 470
+      },
+      {
+        "id": 202,
+        "name": "Desi Ghee",
+        "image": "https://example.com/images/desi_ghee.png",
+        "mrp": 490,
+        "today_price": 450
+      },
+      {
+        "id": 203,
+        "name": "Organic Ghee",
+        "image": "https://example.com/images/organic_ghee.png",
+        "mrp": 520,
+        "today_price": 480
+      },
+      {
+        "id": 204,
+        "name": "A2 Ghee",
+        "image": "https://example.com/images/a2_ghee.png",
+        "mrp": 530,
+        "today_price": 490
+      },
+      {
+        "id": 205,
+        "name": "Buffalo Ghee",
+        "image": "https://example.com/images/buffalo_ghee.png",
+        "mrp": 500,
+        "today_price": 460
+      },
+      {
+        "id": 206,
+        "name": "Homemade Ghee",
+        "image": "https://example.com/images/homemade_ghee.png",
+        "mrp": 540,
+        "today_price": 500
+      },
+      {
+        "id": 207,
+        "name": "Traditional Ghee",
+        "image": "https://example.com/images/traditional_ghee.png",
+        "mrp": 550,
+        "today_price": 510
+      },
+      {
+        "id": 208,
+        "name": "Flavored Ghee",
+        "image": "https://example.com/images/flavored_ghee.png",
+        "mrp": 500,
+        "today_price": 460
+      },
+      {
+        "id": 209,
+        "name": "Bilona Ghee",
+        "image": "https://example.com/images/bilona_ghee.png",
+        "mrp": 560,
+        "today_price": 520
+      },
+      {
+        "id": 210,
+        "name": "Ayurvedic Ghee",
+        "image": "https://example.com/images/ayurvedic_ghee.png",
+        "mrp": 580,
+        "today_price": 540
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Paneer",
+    "source": "Thus morning at 6 AM",
+    "star_rating": 4.5,
+    "image": "https://example.com/images/paneer.png",
+    "mrp": 200,
+    "today_price": 180,
+    "subdivisions": [
+      {
+        "id": 301,
+        "name": "Fresh Paneer",
+        "image": "https://example.com/images/fresh_paneer.png",
+        "mrp": 210,
+        "today_price": 190
+      },
+      {
+        "id": 302,
+        "name": "Low Fat Paneer",
+        "image": "https://example.com/images/lowfat_paneer.png",
+        "mrp": 220,
+        "today_price": 200
+      },
+      {
+        "id": 303,
+        "name": "Organic Paneer",
+        "image": "https://example.com/images/organic_paneer.png",
+        "mrp": 230,
+        "today_price": 210
+      },
+      {
+        "id": 304,
+        "name": "Tofu",
+        "image": "https://example.com/images/tofu.png",
+        "mrp": 240,
+        "today_price": 220
+      },
+      {
+        "id": 305,
+        "name": "Malai Paneer",
+        "image": "https://example.com/images/malai_paneer.png",
+        "mrp": 250,
+        "today_price": 230
+      },
+      {
+        "id": 306,
+        "name": "A2 Paneer",
+        "image": "https://example.com/images/a2_paneer.png",
+        "mrp": 260,
+        "today_price": 240
+      },
+      {
+        "id": 307,
+        "name": "Soft Paneer",
+        "image": "https://example.com/images/soft_paneer.png",
+        "mrp": 270,
+        "today_price": 250
+      },
+      {
+        "id": 308,
+        "name": "Spicy Paneer",
+        "image": "https://example.com/images/spicy_paneer.png",
+        "mrp": 280,
+        "today_price": 260
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Curd",
+    "source": "Thus morning at 6 AM",
+    "star_rating": 4.4,
+    "image": "https://example.com/images/curd.png",
+    "mrp": 60,
+    "today_price": 55,
+    "subdivisions": [
+      {
+        "id": 401,
+        "name": "Fresh Curd",
+        "image": "https://example.com/images/fresh_curd.png",
+        "mrp": 60,
+        "today_price": 55
+      },
+      {
+        "id": 402,
+        "name": "Set Curd",
+        "image": "https://example.com/images/set_curd.png",
+        "mrp": 62,
+        "today_price": 57
+      },
+      {
+        "id": 403,
+        "name": "Greek Yogurt",
+        "image": "https://example.com/images/greek_yogurt.png",
+        "mrp": 70,
+        "today_price": 65
+      },
+      {
+        "id": 404,
+        "name": "Flavored Yogurt",
+        "image": "https://example.com/images/flavored_yogurt.png",
+        "mrp": 75,
+        "today_price": 68
+      },
+      {
+        "id": 405,
+        "name": "Low Fat Curd",
+        "image": "https://example.com/images/lowfat_curd.png",
+        "mrp": 65,
+        "today_price": 60
+      },
+      {
+        "id": 406,
+        "name": "Organic Curd",
+        "image": "https://example.com/images/organic_curd.png",
+        "mrp": 70,
+        "today_price": 65
+      },
+      {
+        "id": 407,
+        "name": "Buffalo Curd",
+        "image": "https://example.com/images/buffalo_curd.png",
+        "mrp": 68,
+        "today_price": 63
+      },
+      {
+        "id": 408,
+        "name": "A2 Curd",
+        "image": "https://example.com/images/a2_curd.png",
+        "mrp": 72,
+        "today_price": 66
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Sweet",
+    "source": "Thus morning at 6 AM",
+    "star_rating": 4.8,
+    "image": "https://example.com/images/sweet.png",
+    "mrp": 300,
+    "today_price": 270,
+    "subdivisions": [
+      {
+        "id": 501,
+        "name": "Rasgulla",
+        "image": "https://example.com/images/rasgulla.png",
+        "mrp": 320,
+        "today_price": 290
+      },
+      {
+        "id": 502,
+        "name": "Gulab Jamun",
+        "image": "https://example.com/images/gulab_jamun.png",
+        "mrp": 310,
+        "today_price": 280
+      },
+      {
+        "id": 503,
+        "name": "Kaju Katli",
+        "image": "https://example.com/images/kaju_katli.png",
+        "mrp": 350,
+        "today_price": 320
+      },
+      {
+        "id": 504,
+        "name": "Motichoor Ladoo",
+        "image": "https://example.com/images/motichoor_ladoo.png",
+        "mrp": 330,
+        "today_price": 300
+      },
+      {
+        "id": 505,
+        "name": "Milk Cake",
+        "image": "https://example.com/images/milk_cake.png",
+        "mrp": 340,
+        "today_price": 310
+      },
+      {
+        "id": 506,
+        "name": "Peda",
+        "image": "https://example.com/images/peda.png",
+        "mrp": 300,
+        "today_price": 270
+      },
+      {
+        "id": 507,
+        "name": "Mysore Pak",
+        "image": "https://example.com/images/mysore_pak.png",
+        "mrp": 320,
+        "today_price": 290
+      },
+      {
+        "id": 508,
+        "name": "Barfi",
+        "image": "https://example.com/images/barfi.png",
+        "mrp": 310,
+        "today_price": 280
+      },
+      {
+        "id": 509,
+        "name": "Kalakand",
+        "image": "https://example.com/images/kalakand.png",
+        "mrp": 330,
+        "today_price": 300
+      },
+      {
+        "id": 510,
+        "name": "Cham Cham",
+        "image": "https://example.com/images/cham_cham.png",
+        "mrp": 310,
+        "today_price": 280
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Juice",
+    "source": "Thus morning at 6 AM",
+    "star_rating": 4.3,
+    "image": "https://example.com/images/juice.png",
+    "mrp": 120,
+    "today_price": 100,
+    "subdivisions": [
+      {
+        "id": 601,
+        "name": "Orange Juice",
+        "image": "https://example.com/images/orange_juice.png",
+        "mrp": 130,
+        "today_price": 110
+      },
+      {
+        "id": 602,
+        "name": "Apple Juice",
+        "image": "https://example.com/images/apple_juice.png",
+        "mrp": 125,
+        "today_price": 105
+      },
+      {
+        "id": 603,
+        "name": "Grape Juice",
+        "image": "https://example.com/images/grape_juice.png",
+        "mrp": 135,
+        "today_price": 115
+      },
+      {
+        "id": 604,
+        "name": "Mango Juice",
+        "image": "https://example.com/images/mango_juice.png",
+        "mrp": 140,
+        "today_price": 120
+      },
+      {
+        "id": 605,
+        "name": "Pineapple Juice",
+        "image": "https://example.com/images/pineapple_juice.png",
+        "mrp": 130,
+        "today_price": 110
+      },
+      {
+        "id": 606,
+        "name": "Pomegranate Juice",
+        "image": "https://example.com/images/pomegranate_juice.png",
+        "mrp": 145,
+        "today_price": 125
+      },
+      {
+        "id": 607,
+        "name": "Mixed Fruit Juice",
+        "image": "https://example.com/images/mixed_fruit_juice.png",
+        "mrp": 150,
+        "today_price": 130
+      },
+      {
+        "id": 608,
+        "name": "Litchi Juice",
+        "image": "https://example.com/images/litchi_juice.png",
+        "mrp": 135,
+        "today_price": 115
+      },
+      {
+        "id": 609,
+        "name": "Watermelon Juice",
+        "image": "https://example.com/images/watermelon_juice.png",
+        "mrp": 120,
+        "today_price": 100
+      },
+      {
+        "id": 610,
+        "name": "Guava Juice",
+        "image": "https://example.com/images/guava_juice.png",
+        "mrp": 125,
+        "today_price": 105
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Butter",
+    "source": "Thus morning at 6 AM",
+    "star_rating": 4.6,
+    "image": "https://example.com/images/butter.png",
+    "mrp": 250,
+    "today_price": 230,
+    "subdivisions": [
+      {
+        "id": 701,
+        "name": "Salted Butter",
+        "image": "https://example.com/images/salted_butter.png",
+        "mrp": 260,
+        "today_price": 240
+      },
+      {
+        "id": 702,
+        "name": "Unsalted Butter",
+        "image": "https://example.com/images/unsalted_butter.png",
+        "mrp": 255,
+        "today_price": 235
+      },
+      {
+        "id": 703,
+        "name": "White Butter",
+        "image": "https://example.com/images/white_butter.png",
+        "mrp": 270,
+        "today_price": 250
+      },
+      {
+        "id": 704,
+        "name": "Garlic Butter",
+        "image": "https://example.com/images/garlic_butter.png",
+        "mrp": 280,
+        "today_price": 260
+      },
+      {
+        "id": 705,
+        "name": "Herb Butter",
+        "image": "https://example.com/images/herb_butter.png",
+        "mrp": 285,
+        "today_price": 265
+      },
+      {
+        "id": 706,
+        "name": "Organic Butter",
+        "image": "https://example.com/images/organic_butter.png",
+        "mrp": 300,
+        "today_price": 280
+      },
+      {
+        "id": 707,
+        "name": "Cow Butter",
+        "image": "https://example.com/images/cow_butter.png",
+        "mrp": 275,
+        "today_price": 255
+      },
+      {
+        "id": 708,
+        "name": "Buffalo Butter",
+        "image": "https://example.com/images/buffalo_butter.png",
+        "mrp": 265,
+        "today_price": 245
+      },
+      {
+        "id": 709,
+        "name": "A2 Butter",
+        "image": "https://example.com/images/a2_butter.png",
+        "mrp": 310,
+        "today_price": 290
+      },
+      {
+        "id": 710,
+        "name": "Homemade Butter",
+        "image": "https://example.com/images/homemade_butter.png",
+        "mrp": 250,
+        "today_price": 230
+      }
+    ]
+  }
+]

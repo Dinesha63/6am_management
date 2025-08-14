@@ -1,0 +1,45 @@
+{
+	  "data" : {
+	  "product_id": "P0001",
+	  "product_skus": [
+		{
+		  "product_skuid": "PSK001",
+		  "product_skuName": "1/2 Ltr pocket",
+		  "mrp_price": "60",
+		  "today_price": 40,
+		  "likes": 200,
+		  "reviews": 4,
+		  "measurement": "ltr",
+		  "image_list": [
+			{
+			  "image_url": "https://example.com/images/milk/milk2.jpg"
+			},
+			{
+			  "image_url": "https://example.com/images/milk/milk1.jpg"
+			}
+		  ],
+		  "description": "",
+		  "Nutrition": ""
+		},
+		{
+		  "product_skuid": "PSK002",
+		  "product_skuName": "1 Ltr pocket",
+		  "mrp_price": "120",
+		  "today_price": 80,
+		  "likes": 180,
+		  "reviews": 4,
+		  "measurement": "ltr",
+		  "image_list": [
+			{
+			  "image_url": "https://example.com/images/milk/milk2.jpg"
+			},
+			{
+			  "image_url": "https://example.com/images/milk/milk1.jpg"
+			}
+		  ],
+		  "description": "",
+		  "Nutrition": ""
+		}
+	  ]
+  }
+}

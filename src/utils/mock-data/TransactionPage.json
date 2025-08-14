@@ -1,0 +1,182 @@
+{
+  "Transactions": {
+    "All": [
+      {
+        "type": "Purchase",
+        "action": "Completed",
+        "date": "2025-05-22",
+        "time": "13:45",
+        "amount": 60.0,
+        "transaction_type": "UPI",
+        "items": [
+          {
+            "productName": "Product Name",
+            "storeName": "Store Name",
+            "quantity": "1 Litre",
+            "price": 60.0
+          }
+        ]
+      },
+      {
+        "type": "Subscription",
+        "action": "Refund",
+        "date": "2025-05-22",
+        "time": "11:11",
+        "amount": 60.0,
+        "transaction_type": "UPI",
+        "items": [
+          {
+            "productName": "",
+            "storeName": "",
+            "quantity": "",
+            "price": 0.0
+          }
+        ]
+      },
+      {
+        "type": "Purchase",
+        "action": "Completed",
+        "date": "2025-05-27",
+        "time": "09:30",
+        "amount": 120.0,
+        "transaction_type": "Credit Card",
+        "items": [
+          {
+            "productName": "Organic Honey",
+            "storeName": "Nature Store",
+            "quantity": "500g",
+            "price": 120.0
+          }
+        ]
+      },
+      {
+        "type": "Subscription",
+        "action": "Refund",
+        "date": "2025-05-25",
+        "time": "15:00",
+        "amount": 80.0,
+        "transaction_type": "UPI",
+        "items": [
+          {
+            "productName": "",
+            "storeName": "",
+            "quantity": "",
+            "price": 0.0
+          }
+        ]
+      },
+      {
+        "type": "Purchase",
+        "action": "Completed",
+        "date": "2025-05-20",
+        "time": "12:15",
+        "amount": 250.0,
+        "transaction_type": "Cash",
+        "items": [
+          {
+            "productName": "Rice Bag",
+            "storeName": "Local Grocery",
+            "quantity": "5 Kg",
+            "price": 250.0
+          }
+        ]
+      },
+      {
+        "type": "Subscription",
+        "action": "Refund",
+        "date": "2025-05-18",
+        "time": "17:45",
+        "amount": 150.0,
+        "transaction_type": "Debit Card",
+        "items": [
+          {
+            "productName": "",
+            "storeName": "",
+            "quantity": "",
+            "price": 0.0
+          }
+        ]
+      },
+      {
+        "type": "Purchase",
+        "action": "Completed",
+        "date": "2025-05-15",
+        "time": "10:20",
+        "amount": 300.0,
+        "transaction_type": "Credit Card",
+        "items": [
+          {
+            "productName": "Cooking Oil",
+            "storeName": "MegaMart",
+            "quantity": "3 Litre",
+            "price": 300.0
+          }
+        ]
+      },
+      {
+        "type": "Subscription",
+        "action": "Refund",
+        "date": "2025-05-12",
+        "time": "14:50",
+        "amount": 200.0,
+        "transaction_type": "UPI",
+        "items": [
+          {
+            "productName": "",
+            "storeName": "",
+            "quantity": "",
+            "price": 0.0
+          }
+        ]
+      },
+      {
+        "type": "Purchase",
+        "action": "Completed",
+        "date": "2025-05-10",
+        "time": "08:00",
+        "amount": 75.0,
+        "transaction_type": "Cash",
+        "items": [
+          {
+            "productName": "Milk",
+            "storeName": "DairyMart",
+            "quantity": "2 Litres",
+            "price": 75.0
+          }
+        ]
+      },
+      {
+        "type": "Subscription",
+        "action": "Refund",
+        "date": "2025-05-05",
+        "time": "19:10",
+        "amount": 50.0,
+        "transaction_type": "Debit Card",
+        "items": [
+          {
+            "productName": "",
+            "storeName": "",
+            "quantity": "",
+            "price": 0.0
+          }
+        ]
+      },
+      {
+        "type": "Purchase",
+        "action": "Completed",
+        "date": "2025-05-01",
+        "time": "11:40",
+        "amount": 500.0,
+        "transaction_type": "Credit Card",
+        "items": [
+          {
+            "productName": "Bluetooth Speaker",
+            "storeName": "ElectroStore",
+            "quantity": "1 Unit",
+            "price": 500.0
+          }
+        ]
+      }
+    ]
+  }
+}
