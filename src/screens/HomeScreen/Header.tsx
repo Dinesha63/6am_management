@@ -71,16 +71,18 @@ const Header: React.FC<HeaderProps> = ({
             },
           ]}
           onPress={() => {
-            if(isGuest) {
-              setShowGuestBottomSheet(true);
-             return;
-            }
-            const walletAmount = customerInfo?.walletAmount ?? 0;
-            if (walletAmount === 0) {
-              navigation.navigate('CreditScreen', { unitPrice: 0, flowType: 'Main' });
-            } else {
-              navigation.navigate('CreditsScreenWallet');
-            }
+            navigation.navigate ('AdminScreen');
+            // if(isGuest) {
+            //   setShowGuestBottomSheet(true);
+            //  return;
+            // }
+            // const walletAmount = customerInfo?.walletAmount ?? 0;
+            // if (walletAmount === 0) {
+
+            //   navigation.navigate('CreditScreen', { unitPrice: 0, flowType: 'Main' });
+            // } else {
+            //   navigation.navigate('CreditsScreenWallet');
+            // }
           }}>
           <SimpleIcon
             source={imagePaths.Wallet_Icon}

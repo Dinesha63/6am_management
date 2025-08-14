@@ -45,6 +45,7 @@ export type RootStackParamList = {
     goToAccountOnBack: boolean;
   };
   AddressSuccessScreen: undefined;
+  AdminScreen: undefined;
   MarkVacationScreen: undefined;
   ManageProducts: undefined;
   ReportDamageScreen: undefined;

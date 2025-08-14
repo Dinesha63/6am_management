@@ -37,6 +37,7 @@ export enum Routes {
   AddCreditsToWallet = 'AddCreditsToWallet',
   ManageNotifications = 'ManageNotifications',
   AboutScreen = 'AboutScreen',
+  AdminScreen = 'AdminScreen',
   LegalScreen = 'LegalScreen',
   PrivacyPolicyScreen = 'PrivacyPolicyScreen',
   TermsAndConditionsScreen = 'TermsAndConditionsScreen',

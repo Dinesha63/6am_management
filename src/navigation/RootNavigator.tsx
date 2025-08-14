@@ -43,6 +43,7 @@ import TermsAndConditionsScreen from '../screens/LegalScreen/TermsAndConditionsS
 import PrivacyPolicyScreen from '../screens/LegalScreen/PrivacyPolicyScreen.tsx';
 import AboutScreen from '../screens/LegalScreen/AboutScreen.tsx';
 import GuestSubscriptionScreen from '../screens/SubscriptionScreen/GuestSubscriptionScreen.tsx';
+import AdminScreen from '../screens/Admin/index.tsx';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -89,7 +90,10 @@ const RootNavigator: React.FC = () => {
             />
             <Stack.Screen name={Routes.Payment} component={PaymentScreen} />
             <Stack.Screen name={Routes.Location} component={LocationScreen} />
-            <Stack.Screen name={Routes.LocationAddressScreen} component={LocationAddressScreen} />
+            <Stack.Screen
+              name={Routes.LocationAddressScreen}
+              component={LocationAddressScreen}
+            />
             <Stack.Screen
               name={Routes.SetSubscriptionScreen}
               component={SetSubscriptionScreen}
@@ -164,10 +168,7 @@ const RootNavigator: React.FC = () => {
               name={Routes.HelpAndFAQScreen}
               component={HelpAndFAQScreen}
             />
-            <Stack.Screen
-              name={Routes.LegalScreen}
-              component={LegalScreen}
-            />
+            <Stack.Screen name={Routes.LegalScreen} component={LegalScreen} />
             <Stack.Screen
               name={Routes.PrivacyPolicyScreen}
               component={PrivacyPolicyScreen}
@@ -176,15 +177,14 @@ const RootNavigator: React.FC = () => {
               name={Routes.TermsAndConditionsScreen}
               component={TermsAndConditionsScreen}
             />
-            <Stack.Screen
-              name={Routes.AboutScreen}
-              component={AboutScreen}
-            />
+            <Stack.Screen name={Routes.AboutScreen} component={AboutScreen} />
+
+            <Stack.Screen name={Routes.AdminScreen} component={AdminScreen} />
             <Stack.Screen
               name={Routes.GuestSubscriptionScreen}
               component={GuestSubscriptionScreen}
-            />  
-             <Stack.Screen
+            />
+            <Stack.Screen
               name={Routes.OtpVerification}
               component={OtpVerificationScreen}
             />
@@ -212,7 +212,10 @@ const RootNavigator: React.FC = () => {
             />
             <Stack.Screen name={Routes.Payment} component={PaymentScreen} />
             <Stack.Screen name={Routes.Location} component={LocationScreen} />
-            <Stack.Screen name={Routes.LocationAddressScreen} component={LocationAddressScreen} />
+            <Stack.Screen
+              name={Routes.LocationAddressScreen}
+              component={LocationAddressScreen}
+            />
             <Stack.Screen
               name={Routes.ModifyProduct}
               component={ModifyProduct}
@@ -262,14 +265,11 @@ const RootNavigator: React.FC = () => {
               name={Routes.StoreLocationScreen}
               component={StoreLocationScreen}
             />
-             <Stack.Screen
+            <Stack.Screen
               name={Routes.HelpAndFAQScreen}
               component={HelpAndFAQScreen}
             />
-            <Stack.Screen
-              name={Routes.LegalScreen}
-              component={LegalScreen}
-            />
+            <Stack.Screen name={Routes.LegalScreen} component={LegalScreen} />
             <Stack.Screen
               name={Routes.PrivacyPolicyScreen}
               component={PrivacyPolicyScreen}
@@ -278,11 +278,9 @@ const RootNavigator: React.FC = () => {
               name={Routes.TermsAndConditionsScreen}
               component={TermsAndConditionsScreen}
             />
+            <Stack.Screen name={Routes.AboutScreen} component={AboutScreen} />
+            <Stack.Screen name={Routes.AdminScreen} component={AdminScreen} />
             <Stack.Screen
-              name={Routes.AboutScreen}
-              component={AboutScreen}
-            />
-                        <Stack.Screen
               name={Routes.SubscriptionSuccessScreen}
               component={SubscriptionSuccessScreen}
             />
