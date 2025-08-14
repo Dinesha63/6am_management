@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import { FontFamily} from '../../utils/constant';
-import { imagePaths } from '../../utils/constants/imagePaths';
+import {FontFamily} from '../../utils/constant';
+import {imagePaths} from '../../utils/constants/imagePaths';
 import HeaderText from '../../components/HeaderText';
 import {
   getResponsiveWidth as wp,
@@ -21,9 +21,7 @@ const Header: React.FC = () => {
       <TouchableOpacity
         onPress={() => navigation.goBack()}
         style={styles.backButton}>
-          <SimpleIcon
-         source={imagePaths.back_icon} 
-         style={styles.backIcon} />  
+        <SimpleIcon source={imagePaths.back_icon} style={styles.backIcon} />
       </TouchableOpacity>
       <HeaderText text="My Subscription" style={styles.headerTitle} />
     </View>

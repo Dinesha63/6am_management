@@ -3,18 +3,22 @@ import products from './Products.json';
 import {useState} from 'react';
 import NavigationHeader from './Header';
 import ProductCard from './Card';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {ScrollView, View} from 'react-native';
 import {Text} from 'react-native-gesture-handler';
 import SimpleIcon from '../../../components/SimpleIcon';
-import { FontFamily} from '../../../utils/constant';
-import { imagePaths } from '../../../utils/constants/imagePaths';
+import {FontFamily} from '../../../utils/constant';
+import {imagePaths} from '../../../utils/constants/imagePaths';
 import {
   getResponsiveWidth as wp,
   getResponsiveHeight as hp,
   getResponsiveFontSize as sp,
   getResponsiveSpacing as rsp,
 } from '../../../utils/constants/responsiveScreen';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../../types';
+import Admin from '../../Admin/Index';
 
 const ManageProducts: React.FC = () => {
   const [enabledProductIds, setEnabledProductIds] = useState<number[]>([]);
@@ -28,34 +32,36 @@ const ManageProducts: React.FC = () => {
       setEnabledProductIds(prevIds => [...prevIds, productId]);
     }
   };
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  return (
+    <View style={styles.container}>
+      <NavigationHeader title="Manage Products" />
+      <ScrollView style={styles.scrollView}>
+        <View>
+          <View style={styles.infoRow}>
+            <SimpleIcon style={styles.infoIcon} source={imagePaths.Info_icon} />
+            <Text style={styles.infoText}>
+              Manage your deliveries; Edit or upcoming subscribe orders.
+            </Text>
+            
+          </View>
 
- return (
-  <View style={styles.container}>
-    <NavigationHeader title="Manage Products" />
-    <ScrollView style={styles.scrollView}>
-      <View>
-        <View style={styles.infoRow}>
-          <SimpleIcon style={styles.infoIcon} source={imagePaths.Info_icon} />
-          <Text style={styles.infoText}>
-            Manage your deliveries; Edit or upcoming subscribe orders.
-          </Text>
+          {products.map(product => {
+            const isEnabled = enabledProductIds.includes(product.id);
+
+            return (
+              <ProductCard
+                key={product.id}
+                product={product}
+                isEnabled={isEnabled}
+                toggleSwitch={toggleSwitch}
+              />
+            );
+          })}
         </View>
-
-        {products.map(product => {
-          const isEnabled = enabledProductIds.includes(product.id);
-
-          return (
-            <ProductCard
-              key={product.id}
-              product={product}
-              isEnabled={isEnabled}
-              toggleSwitch={toggleSwitch}
-            />
-          );
-        })}
-      </View>
-    </ScrollView>
-  </View>
+      </ScrollView>
+    </View>
   );
 };
 const styles = StyleSheet.create({

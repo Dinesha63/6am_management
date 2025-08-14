@@ -1,11 +1,11 @@
 // Navigation types
-import { BottomTabParamList } from '../navigation/BottomTabNavigator';
+import {BottomTabParamList} from '../navigation/BottomTabNavigator';
 
 export type RootStackParamList = {
   Splash: undefined;
   OtpVerification: undefined;
   VerifyNumber: {phoneNumber: string};
-  Main: { screen?: keyof BottomTabParamList };
+  Main: {screen?: keyof BottomTabParamList};
   // Main: { screen: keyof BottomTabParamList };
   Account: undefined;
   List: {category: string; showSubscribeButton?: boolean; headerTitle?: string};
@@ -22,7 +22,7 @@ export type RootStackParamList = {
   };
   Payment: {
     totalAmount: number;
-    paymentData : any
+    paymentData: any;
   };
   // Address route removed - using LocationAddressScreen instead
   Location: {formData?: any; addressData?: any};
@@ -47,11 +47,13 @@ export type RootStackParamList = {
   AddressSuccessScreen: undefined;
   MarkVacationScreen: undefined;
   ManageProducts: undefined;
+  Admin: undefined;
+  AdminCards: undefined;
   ReportDamageScreen: undefined;
   ReportSubmitScreen: undefined;
   CancelSubscription: undefined;
   ModifyProduct: undefined;
-  CreditScreen: {unitPrice: number,flowType?: string};
+  CreditScreen: {unitPrice: number; flowType?: string};
   StoreLocationScreen: undefined;
   TransactionScreen: undefined;
   GuestScreen: undefined;
@@ -63,7 +65,7 @@ export type RootStackParamList = {
     bonusAmount?: number;
     totalDue?: number;
     couponCode?: string;
-    flowType?:string
+    flowType?: string;
   };
   CreditsScreenWallet: undefined;
   NoTransactionsScreen: undefined;
@@ -76,6 +78,7 @@ export type RootStackParamList = {
   HelpAndFAQScreen: undefined;
   SubscriptionSuccessScreen: undefined;
   GuestSubscriptionScreen: undefined;
+  AdminHeader: undefined;
 };
 
 //Address Type
@@ -92,9 +95,6 @@ export type RootStackParamList = {
 //   country: string;
 //   location: string;
 // };
-
-
-
 
 export interface AddressData {
   fullName: string;
@@ -164,7 +164,6 @@ export interface RadioOption {
   label: string;
   hasInput?: boolean;
 }
-
 
 export type PaymentPayload = {
   customerPhoneNumber: string;

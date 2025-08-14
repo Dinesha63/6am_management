@@ -1,26 +1,37 @@
 /* eslint-disable react-native/no-inline-styles */
-import { StyleSheet, Text, View, ScrollView, Alert, ActivityIndicator } from 'react-native';
-import { useEffect, useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Alert,
+  ActivityIndicator,
+  TouchableOpacity,
+  Button,
+} from 'react-native';
+import {useEffect, useState} from 'react';
 import Colors from '../../utils/constants/colors';
 import NavigationHeader from './ManageProducts/Header';
 import RadioOptions from './Components/RadioButtons';
 import ActionButtons from './Components/SubscriptionButtons';
-import { RadioOption, RootStackParamList } from '../../types/index';
-import { FontFamily } from '../../utils/constant';
+import {RadioOption, RootStackParamList} from '../../types/index';
+import {FontFamily} from '../../utils/constant';
 import {
   getResponsiveWidth as wp,
   getResponsiveHeight as hp,
   getResponsiveFontSize as sp,
   getResponsiveSpacing as rsp,
 } from '../../utils/constants/responsiveScreen';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { AppDispatch, RootState } from '../../redux/store';
-import { cancelAllSubscriptions, fetchCancelReasons } from '../../redux/Features/Customer/customerSubscriptionThunk';
-import { getStoredPhoneNumber } from '../../config/storage';
-import { Routes } from '../../navigation/routes';
-
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {AppDispatch, RootState} from '../../redux/store';
+import {
+  cancelAllSubscriptions,
+  fetchCancelReasons,
+} from '../../redux/Features/Customer/customerSubscriptionThunk';
+import {getStoredPhoneNumber} from '../../config/storage';
+import {Routes} from '../../navigation/routes';
 
 const CancelSubscription: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -28,22 +39,25 @@ const CancelSubscription: React.FC = () => {
   const [cancelLoading, setCancelLoading] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   // const navigation = useNavigation();
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-  const { reasons, loading, error } = useSelector((state: RootState) => state.customerSubscription.cancelReason);
-  console.log(reasons, ": reasons")
+  const {reasons, loading, error} = useSelector(
+    (state: RootState) => state.customerSubscription.cancelReason,
+  );
+  console.log(reasons, ': reasons');
 
   useEffect(() => {
     console.log('🔄 Calling fetchCancelReasons...');
     dispatch(fetchCancelReasons());
   }, [dispatch]);
 
-
-  const options: RadioOption[] = reasons?.map((reason, index) => ({
-    id: `reason_${index}`,
-    label: reason,
-    hasInput: reason === 'Other, Please Specify'
-  })) || [];
+  const options: RadioOption[] =
+    reasons?.map((reason, index) => ({
+      id: `reason_${index}`,
+      label: reason,
+      hasInput: reason === 'Other, Please Specify',
+    })) || [];
 
   const handleSelect = (id: string) => {
     setSelectedOption(id === selectedOption ? null : id);
@@ -53,7 +67,9 @@ const CancelSubscription: React.FC = () => {
     if (!selectedOption) return false;
 
     // Check if selected option has input field
-    const selectedOptionData = options.find(option => option.id === selectedOption);
+    const selectedOptionData = options.find(
+      option => option.id === selectedOption,
+    );
     if (selectedOptionData?.hasInput) {
       // For "Other, Please Specify", require trimmed text
       return otherText.trim().length > 0;
@@ -62,7 +78,6 @@ const CancelSubscription: React.FC = () => {
     // For other options, just having selectedOption is enough
     return true;
   };
-
 
   const handleCancelSubscriptions = async () => {
     setCancelLoading(true);
@@ -74,23 +89,23 @@ const CancelSubscription: React.FC = () => {
         return;
       }
 
+      const selectedOptionData = options.find(
+        option => option.id === selectedOption,
+      );
+      const cancelReason = selectedOptionData?.hasInput
+        ? otherText.trim()
+        : selectedOptionData?.label || '';
+      console.log(cancelReason, ': cancelReason');
 
-      const selectedOptionData = options.find(option => option.id === selectedOption);
-      const cancelReason = selectedOptionData?.hasInput ? otherText.trim() : selectedOptionData?.label || '';
-      console.log(cancelReason, ": cancelReason");
+      console.log('phoneNumber and cancelReason : ', phoneNumber, cancelReason);
 
-console.log("phoneNumber and cancelReason : ", phoneNumber , cancelReason )
-
-
-
-
-      const result = await dispatch(cancelAllSubscriptions({ phoneNumber, cancelReason: cancelReason }));
+      const result = await dispatch(
+        cancelAllSubscriptions({phoneNumber, cancelReason: cancelReason}),
+      );
       console.log('📦 [CANCEL] Dispatch result:', result);
-      if(result){
-        
-        navigation.replace('Main', { screen: 'Account' });
+      if (result) {
+        navigation.replace('Main', {screen: 'Account'});
       }
-      
     } catch (err) {
       console.error('💥 [CANCEL] Exception caught:', err);
     } finally {
@@ -99,14 +114,14 @@ console.log("phoneNumber and cancelReason : ", phoneNumber , cancelReason )
   };
 
   return (
-    <ScrollView style={{ marginBottom: 15 }}>
+    <ScrollView style={{marginBottom: 15}}>
       <View style={styles.container}>
         <NavigationHeader title="Cancel Subscription" />
         <View style={styles.TextContainer1}>
           <Text style={styles.text1}>We're sorry to see you go!</Text>
         </View>
         <View style={styles.subText1}>
-          <Text style={{ fontWeight: '500' }}>
+          <Text style={{fontWeight: '500'}}>
             Before you cancel, please let us know how we can
           </Text>
           <Text style={styles.subText2}>improve your experience.</Text>
@@ -134,15 +149,24 @@ console.log("phoneNumber and cancelReason : ", phoneNumber , cancelReason )
               selectedOption === 'break'
                 ? 'Pause Subscription button clicked'
                 : selectedOption === 'moving'
-                  ? 'Explore our other Store Areas button clicked'
-                  : 'Keep My Subscription button clicked',
+                ? 'Explore our other Store Areas button clicked'
+                : 'Keep My Subscription button clicked',
             );
           }}
           onProceed={handleCancelSubscriptions}
           button2Disabled={cancelLoading}
           button2TextDisabled={cancelLoading}
         />
-        {cancelLoading && <ActivityIndicator size="large" color={Colors.primary} style={{ marginTop: 20 }} />}
+        {cancelLoading && (
+          <ActivityIndicator
+            size="large"
+            color={Colors.primary}
+            style={{marginTop: 20}}
+          />
+        )}
+        <TouchableOpacity onPress={() => navigation.navigate('Admin')}>
+          <Text>Admin</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -156,7 +180,7 @@ const styles = StyleSheet.create({
     marginTop: hp(4.5),
     borderWidth: 1,
     borderColor: Colors.lineLight,
-    borderRadius: wp(5),        
+    borderRadius: wp(5),
     width: wp(83),
     alignSelf: 'center',
   },
