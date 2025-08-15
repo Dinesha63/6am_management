@@ -221,14 +221,6 @@ const styles = StyleSheet.create({
     marginVertical: hp(1),
     borderRadius: wp(3),
     padding: wp(3),
-    shadowColor: Colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 2,
   },
   productItem: {
     flexDirection: 'row',

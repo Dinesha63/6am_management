@@ -11,7 +11,6 @@ import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from './src/redux/store';
 import NetworkListener, {checkNetworkStatus} from './src/redux/NetworkListener';
 import {setNetworkStatus} from './src/redux/networkSlice';
-import TTSScreen from './src/screens/TextToVoice/Index';
 
 const AppContent: React.FC = () => {
   const dispatch = useDispatch();

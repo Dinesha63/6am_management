@@ -283,7 +283,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderRadius: wp(5),
     shadowColor: Colors.blackText,
-    elevation: 4,
   },
 
   productCard: {
@@ -325,7 +324,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowOffset: {width: 0, height: 2},
     shadowRadius: 2,
-    elevation: 2,
   },
   subscribeText: {
     color: Colors.primary,

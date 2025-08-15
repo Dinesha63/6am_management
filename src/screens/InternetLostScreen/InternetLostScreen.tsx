@@ -66,14 +66,6 @@ const styles = StyleSheet.create({
     padding: wp(8),
     alignItems: 'center',
     minWidth: wp(75),
-    shadowColor: Colors.black,
-    shadowOffset: {
-      width: 0,
-      height: hp(0.3),
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: wp(1),
-    elevation: 5,
   },
   iconContainer: {
     marginBottom: hp(2.5),

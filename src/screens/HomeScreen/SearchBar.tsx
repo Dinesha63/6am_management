@@ -14,9 +14,10 @@ import {
 interface SearchBarProps {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
+  placeholder?: string;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({searchQuery, setSearchQuery}) => {
+const SearchBar: React.FC<SearchBarProps> = ({searchQuery, setSearchQuery, placeholder}) => {
   return (
     <View style={styles.container}>
       <SimpleIcon
@@ -25,7 +26,7 @@ const SearchBar: React.FC<SearchBarProps> = ({searchQuery, setSearchQuery}) => {
       />
       <TextInput
         style={styles.input}
-        placeholder="Find your farmer friendly products"
+        placeholder={placeholder || "Search Customers"}
         placeholderTextColor={"grey"}
         value={searchQuery}
         onChangeText={(text) => {

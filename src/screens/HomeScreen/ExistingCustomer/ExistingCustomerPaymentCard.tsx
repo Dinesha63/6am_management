@@ -118,7 +118,6 @@ const styles = StyleSheet.create({
     borderRadius: wp(1.5),
     paddingHorizontal: wp(4),
     paddingVertical: hp(1),
-    elevation: 3,
   },
   // Recharge button styling
   rechargeButton: {
