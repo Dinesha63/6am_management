@@ -1,0 +1,29 @@
+{
+  "stores": [
+    {
+      "id": "loc-1",
+      "name": "Vedapatti",
+      "region": "Coimbatore"
+    },
+    {
+      "id": "loc-2",
+      "name": "Gandhipuram",
+      "region": "Coimbatore"
+    },
+    {
+      "id": "loc-3",
+      "name": "RS Puram",
+      "region": "Coimbatore"
+    },
+    {
+      "id": "loc-4",
+      "name": "Peelamedu",
+      "region": "Coimbatore"
+    },
+    {
+      "id": "loc-5",
+      "name": "Saibaba Colony",
+      "region": "Coimbatore"
+    }
+  ]
+}

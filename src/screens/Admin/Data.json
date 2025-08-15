@@ -1,0 +1,34 @@
+{
+  "cards": [
+    {
+      "id": "products-card",
+      "title": "PRODUCTS",
+      "mainValue": "500",
+      "subText": "Today & Tomorrow"
+    },
+    {
+      "id": "customers-card",
+      "title": "CUSTOMERS",
+      "mainValue": "175",
+      "subText": "Vedapatti"
+    },
+    {
+      "id": "wallet-card",
+      "title": "WALLET",
+      "mainValue": "₹4500",
+      "subText": "prepaid balance"
+    },
+    {
+      "id": "postpaid-card",
+      "title": "POSTPAID DUE",
+      "mainValue": "₹3000",
+      "subText": "amount due"
+    },
+    {
+      "id": "deliveries-card",
+      "title": "DELIVERIES TODAY",
+      "mainValue": "144/150",
+      "subText": "3 pending • 3 skipped"
+    }
+  ]
+}
