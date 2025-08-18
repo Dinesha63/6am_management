@@ -1,5 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Alert, ScrollView, Text} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../types';
+import {Routes} from '../../navigation/routes';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/store';
 import DashboardHeader from './DashboardHeader';
@@ -23,6 +27,7 @@ interface UnifiedDashboardProps {
 }
 
 const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [selectedLocation, setSelectedLocation] = useState('Vedapatti');
   const [activeTab, setActiveTab] = useState(userRole === 'admin' ? 'customers' : 'postpaid');
   const [refreshing, setRefreshing] = useState(false);
@@ -76,7 +81,7 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
   };
 
   const handleCustomerPress = (customer: Customer) => {
-    Alert.alert('Customer', `${customer.name} selected`);
+    navigation.navigate(Routes.CustomerInfo, {customerId: customer.id});
   };
 
   const filteredCustomers = dataService.getFilteredCustomers(selectedLocation);

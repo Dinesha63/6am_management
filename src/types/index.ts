@@ -5,6 +5,7 @@ export type RootStackParamList = {
   Splash: undefined;
   Login: undefined;
   Main: { screen?: keyof BottomTabParamList };
+  CustomerInfo: { customerId: string } | undefined;
 };
 
 //Address Type

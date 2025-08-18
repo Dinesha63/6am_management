@@ -9,6 +9,7 @@ export enum Routes {
 
   // MAIN
   Main = 'Main',
+  CustomerInfo = 'CustomerInfo',
 }
 
 export enum TabRoutes {

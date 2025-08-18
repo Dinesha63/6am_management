@@ -10,6 +10,7 @@ import {Routes} from './routes';
 import SplashScreen from '../screens/SplashScreen/SplashScreen';
 import LoginScreen from '../screens/Auth/LoginScreen';
 import HomeScreen from '../screens/HomeScreen/Index.tsx';
+import CustomerInfo from '../screens/CustomerDetails/CustomerInfo';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -42,6 +43,7 @@ const RootNavigator: React.FC = () => {
           <>
             <Stack.Screen name={Routes.Login} component={LoginScreen} />
             <Stack.Screen name={Routes.Main} component={HomeScreen} />
+            <Stack.Screen name={Routes.CustomerInfo} component={CustomerInfo} />
           </>
         )}
       </Stack.Navigator>
