@@ -62,7 +62,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
 
         <TouchableOpacity style={styles.actionButton} onPress={onActionPress}>
           <SimpleIcon
-            source={imagePaths.Group_icon}
+            source={imagePaths.logout_icon}
             style={styles.actionIcon}
           />
         </TouchableOpacity>
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   actionButton: {
     width: wp(12),
     height: wp(12),
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.greyBackground,
     borderRadius: wp(6),
     justifyContent: 'center',
     alignItems: 'center',
@@ -169,7 +169,8 @@ const styles = StyleSheet.create({
   actionIcon: {
     width: wp(6),
     height: wp(6),
-    tintColor: Colors.white,
+    tintColor: Colors.black,
+    transform: [{ rotate: '180deg' }],
   },
   modalOverlay: {
     flex: 1,

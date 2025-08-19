@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Alert, ScrollView, Text} from 'react-native';
 import {useSelector} from 'react-redux';
-import {RootState} from '../../redux/store';
+import {AppDispatch, RootState} from '../../redux/store';
 import DashboardHeader from './DashboardHeader';
 import SummaryCards from './SummaryCards';
 import DashboardTabs from './DashboardTabs';
@@ -17,6 +17,11 @@ import {
 } from '../../utils/constants/responsiveScreen';
 import Colors from '../../utils/constants/colors';
 import {FontFamily} from '../../utils/constant';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useAppDispatch} from '../../redux/hooks';
+import ProductsTable from './Components/ProductsTable';
+import DeliveriesTable from './Components/DeliveriesTable';
+import { fetchTodayDeliveryList, fetchTodayDeliverySummaryByProduct } from '../../redux/Features/Delivery/deliveryThunk';
 
 interface UnifiedDashboardProps {
   userRole: 'admin' | 'superAdmin';
@@ -24,13 +29,15 @@ interface UnifiedDashboardProps {
 
 const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
   const [selectedLocation, setSelectedLocation] = useState('Vedapatti');
-  const [activeTab, setActiveTab] = useState(userRole === 'admin' ? 'customers' : 'postpaid');
+  const [activeTab, setActiveTab] = useState(
+    userRole === 'admin' ? 'products' : 'products',
+  );
   const [refreshing, setRefreshing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [dashboardData, setDashboardData] = useState(
-    DashboardDataService.getInstance().getDashboardData()
+    DashboardDataService.getInstance().getDashboardData(),
   );
-
+  const dispatch = useAppDispatch();
   const dataService = DashboardDataService.getInstance();
 
   useEffect(() => {
@@ -67,8 +74,10 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
     Alert.alert('Card Pressed', `${cardType} card was pressed`);
   };
 
-  const handleActionPress = () => {
-    Alert.alert('Action', 'Action button pressed');
+  const handleActionPress = async (dispatch: AppDispatch) => {
+    // Alert.alert('Action', 'Action button pressed');
+    await AsyncStorage.removeItem('user');
+    dispatch({type: 'auth/logout'});
   };
 
   const handleDownloadPress = () => {
@@ -87,49 +96,80 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
     if (userRole === 'admin') {
       return [
         {id: 'products', label: 'Products'},
-        {id: 'customers', label: 'Customers'},
+        // {id: 'customers', label: 'Customers'},
         {id: 'deliveries', label: 'Deliveries'},
-        {id: 'history', label: 'History'},
+        // {id: 'history', label: 'History'},
       ];
     } else {
       return [
         {id: 'products', label: 'Products'},
-        {id: 'customers', label: 'Customers'},
-        {id: 'wallet', label: 'Wallet'},
-        {id: 'postpaid', label: 'Postpaid'},
+        // {id: 'customers', label: 'Customers'},
+        // {id: 'wallet', label: 'Wallet'},
+        {id: 'deliveries', label: 'Deliveries'},
       ];
     }
   };
 
   const tabs = getTabs();
-
+  const [productsData, setProductsData] = useState([ {
+      storeName: 'Sai Baba Colony',
+      productName: 'Milk',
+      quantity: '0.250 liters',
+    },]);
+    const [deliveriesData, setDeliveriesData] = useState([{
+      "customerId": "0b2d2c6a-e4b1-4695-9f56-ce1d267fdc0e",
+      "customerName": "Balaji",
+      "phoneNumber": "8675675143",
+      "storeCode": null,
+      "addressLine1": null,
+      "addressLine2": null,
+      "pincode": null,
+      "orderDetails": [
+        {
+          "productSkuCode": "PS0001",
+          "productSkuName": "Milk 250 ml",
+          "quantity": 1
+        }
+      ],
+      "orderId": "b736cf59-1b58-4d07-9206-9755fe700866",
+      "orderNo": "O0025",
+      "orderStatus": "Inprogress",
+      "orderDate": "2025-08-18T11:43:17.548048Z"
+    }
+  ]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const products = await dispatch(fetchTodayDeliverySummaryByProduct(""));
+  //     setProductsData(products);
+  //     const deliveries = await dispatch(fetchTodayDeliveryList(""));
+  //     setDeliveriesData(deliveries);
+  //   };
+  //   fetchData();
+  // }, []);
   return (
     <View style={styles.container}>
       <DashboardHeader
         selectedLocation={selectedLocation}
         onLocationChange={handleLocationChange}
-        onActionPress={handleActionPress}
+        onActionPress={() => handleActionPress(dispatch)}
         userRole={userRole}
       />
 
       <SummaryCards onCardPress={handleCardPress} userRole={userRole} />
 
       {/* SuperAdmin specific: Deliveries Today Card */}
-      {userRole === 'superAdmin' && (
-        <DeliveriesCard />
-      )}
+      {userRole === 'superAdmin' && <DeliveriesCard />}
 
-      <DashboardTabs 
-        activeTab={activeTab} 
+      <DashboardTabs
+        activeTab={activeTab}
         onTabPress={handleTabPress}
         tabs={tabs}
       />
 
-      <ScrollView 
+      <ScrollView
         style={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
-        refreshControl={undefined}
-      >
+        refreshControl={undefined}>
         {/* Admin: Customers Tab Content */}
         {userRole === 'admin' && activeTab === 'customers' && (
           <>
@@ -140,13 +180,13 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
               onDownloadPress={handleDownloadPress}
               filterType="prepaid"
             />
-            
-            <SearchBar 
+
+            <SearchBar
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
               placeholder="Search customers..."
             />
-            
+
             <CustomerList
               customers={filteredCustomers}
               onCustomerPress={handleCustomerPress}
@@ -166,7 +206,7 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
               onDownloadPress={handleDownloadPress}
               filterType="postpaid"
             />
-            
+
             <CustomerList
               customers={filteredCustomers}
               onCustomerPress={handleCustomerPress}
@@ -178,33 +218,50 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
 
         {/* Placeholder content for other tabs */}
         {activeTab === 'products' && (
-          <View style={styles.tabContent}>
-            <View style={styles.placeholderContainer}>
-              <Text style={styles.placeholderText}>Products Tab Content</Text>
-              <Text style={styles.placeholderSubtext}>
-                {userRole === 'admin' 
-                  ? 'Product management and catalog will be displayed here'
-                  : 'Product catalog and inventory management will be displayed here'
-                }
-              </Text>
-            </View>
-          </View>
+          // <View style={styles.tabContent}>
+          //   <View style={styles.placeholderContainer}>
+          //     <Text style={styles.placeholderText}>Products Tab Content</Text>
+          //     <Text style={styles.placeholderSubtext}>
+          //       {userRole === 'admin'
+          //         ? 'Product management and catalog will be displayed here'
+          //         : 'Product catalog and inventory management will be displayed here'
+          //       }
+          //     </Text>
+          //   </View>
+          // </View>
+          <ProductsTable
+            role={userRole}
+            data={productsData} // response from products API
+          />
         )}
-
-        {userRole === 'admin' && activeTab === 'deliveries' && (
+{activeTab === "deliveries" && (
+  <DeliveriesTable
+    role={userRole}
+    data={deliveriesData} // response from deliveries API
+    onUpdateStatus={(orderId, status) => {
+      console.log("Update order", orderId, "to", status);
+      // call API here to update delivery status
+    }}
+  />
+)}
+        {/* {userRole === 'admin' && activeTab === 'deliveries' && (
           <View style={styles.tabContent}>
             <View style={styles.placeholderContainer}>
               <Text style={styles.placeholderText}>Deliveries Tab Content</Text>
-              <Text style={styles.placeholderSubtext}>Delivery tracking and management will be displayed here</Text>
+              <Text style={styles.placeholderSubtext}>
+                Delivery tracking and management will be displayed here
+              </Text>
             </View>
           </View>
-        )}
+        )} */}
 
         {userRole === 'admin' && activeTab === 'history' && (
           <View style={styles.tabContent}>
             <View style={styles.placeholderContainer}>
               <Text style={styles.placeholderText}>History Tab Content</Text>
-              <Text style={styles.placeholderSubtext}>Transaction history and logs will be displayed here</Text>
+              <Text style={styles.placeholderSubtext}>
+                Transaction history and logs will be displayed here
+              </Text>
             </View>
           </View>
         )}
@@ -213,7 +270,9 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
           <View style={styles.tabContent}>
             <View style={styles.placeholderContainer}>
               <Text style={styles.placeholderText}>Customers Tab Content</Text>
-              <Text style={styles.placeholderSubtext}>Customer management and analytics will be displayed here</Text>
+              <Text style={styles.placeholderSubtext}>
+                Customer management and analytics will be displayed here
+              </Text>
             </View>
           </View>
         )}
@@ -222,7 +281,10 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
           <View style={styles.tabContent}>
             <View style={styles.placeholderContainer}>
               <Text style={styles.placeholderText}>Wallet Tab Content</Text>
-              <Text style={styles.placeholderSubtext}>Wallet management and prepaid balance tracking will be displayed here</Text>
+              <Text style={styles.placeholderSubtext}>
+                Wallet management and prepaid balance tracking will be displayed
+                here
+              </Text>
             </View>
           </View>
         )}

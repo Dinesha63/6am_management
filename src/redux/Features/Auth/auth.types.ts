@@ -12,6 +12,6 @@ export interface AuthState {
   error: string | null;
 }
 export interface LoginPayload {
-  email: string;
+  username: string;
   password: string;
 }

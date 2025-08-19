@@ -14,32 +14,32 @@ const API = axios.create({
   },
 });
 
-API.interceptors.request.use(
-  async config => {
-    const skipForUrls = [
-      '/Login/GenerateOtp',
-      '/Login/ResendOtp',
-      '/Login/ValidateOtp'
-    ];
+// API.interceptors.request.use(
+//   async config => {
+//     const skipForUrls = [
+//       '/Login/GenerateOtp',
+//       '/Login/ResendOtp',
+//       '/Login/ValidateOtp'
+//     ];
 
-    if (skipForUrls.some(urlPart => config.url?.includes(urlPart))) {
-      return config;
-    }
+//     if (skipForUrls.some(urlPart => config.url?.includes(urlPart))) {
+//       return config;
+//     }
 
-    try {
-      const creds = await Keychain.getGenericPassword();
-      if (creds && creds.password) {
-        console.log('Token retrieved from Keychain:', creds);
-        config.headers.Authorization = `Bearer ${creds.password}`;
-      }
-    } catch (err) {
-      console.error('Error retrieving token from Keychain:', err);
-    }
+//     try {
+//       const creds = await Keychain.getGenericPassword();
+//       if (creds && creds.password) {
+//         console.log('Token retrieved from Keychain:', creds);
+//         config.headers.Authorization = `Bearer ${creds.password}`;
+//       }
+//     } catch (err) {
+//       console.error('Error retrieving token from Keychain:', err);
+//     }
 
-    return config;
-  },
-  error => Promise.reject(error),
-);
+//     return config;
+//   },
+//   error => Promise.reject(error),
+// );
 
 
 API.interceptors.response.use(

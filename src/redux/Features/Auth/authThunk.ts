@@ -9,7 +9,6 @@ export const loginUser = createAsyncThunk(
   async (payload: LoginPayload, { rejectWithValue }) => {
     try {
       const data = await loginUserAPI(payload);
-      await AsyncStorage.setItem('authKey', data.token);
       return data;
     } catch (err: any) {
       return rejectWithValue(err.response?.data || 'Login failed');

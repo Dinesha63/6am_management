@@ -21,13 +21,14 @@ import {
   getResponsiveHeight as hp,
   getResponsiveFontSize as sp,
 } from '../../utils/constants/responsiveScreen';
-import {imagePaths} from '../../utils/constants/imagePaths';
 import Colors from '../../utils/constants/colors';
 import LinearGradient from 'react-native-linear-gradient';
 
 import ApiContext from '../../context/ApiContext';
-import {useDispatch} from 'react-redux';
 import {setUserRole, setUserAuthenticated} from '../../redux/userSlice';
+import {loginUser} from '../../redux/Features/Auth/authThunk';
+import {useAppDispatch} from '../../hooks/useAppDispatch';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface LoginScreenProps {
   navigation: NativeStackNavigationProp<RootStackParamList>;
@@ -45,28 +46,11 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   const apiContext = useContext(ApiContext);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   if (!apiContext) {
     throw new Error('LoginScreen must be used within an ApiProvider');
   }
-
-  const {api} = apiContext;
-
-  // Mock admin credentials
-  const adminCredentials = {
-    superAdmin: {
-      username: 'superadmin',
-      password: 'superadmin123',
-      role: 'superAdmin' as const,
-    },
-    admin: {
-      username: 'admin',
-      password: 'admin123',
-      role: 'admin' as const,
-    },
-  };
-
   // Auto-slide carousel
   useEffect(() => {
     const interval = setInterval(() => {
@@ -102,37 +86,58 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
 
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
-      let authenticatedUser = null;
 
-      if (
-        username.trim() === adminCredentials.superAdmin.username &&
-        password.trim() === adminCredentials.superAdmin.password
-      ) {
-        authenticatedUser = adminCredentials.superAdmin;
-      } else if (
-        username.trim() === adminCredentials.admin.username &&
-        password.trim() === adminCredentials.admin.password
-      ) {
-        authenticatedUser = adminCredentials.admin;
-      }
+      let payload = {username, password};
+      const result: any = await dispatch(loginUser(payload));
 
-      if (authenticatedUser) {
-        dispatch(setUserRole(authenticatedUser.role));
-        dispatch(setUserAuthenticated(true));
+      console.log('Login API result:', result);
 
-        if (Platform.OS === 'android') {
-          ToastAndroid.show( `Welcome ${authenticatedUser.role}!`,ToastAndroid.SHORT,);
+      if (result?.payload?.data?.isSuccess) {
+        const {storeCode} = result.payload.data;
+
+        let authenticatedUser: 'superAdmin' | 'admin' | null = null;
+
+        if (!storeCode) {
+          authenticatedUser = 'superAdmin';
         } else {
-          ToastAndroid.show(`Login Successful, Welcome ${authenticatedUser.role}!`,ToastAndroid.SHORT);
+          authenticatedUser = 'admin';
         }
 
-        navigation.navigate('Main' as any);
-      } else {
-        ToastAndroid.show(
-          'Login Failed: Invalid username or password. Please try again.', ToastAndroid.SHORT);
+        if (authenticatedUser) {
+          await AsyncStorage.setItem("user", JSON.stringify({
+            role: authenticatedUser,
+            isAuthenticated: true
+          }));
+          dispatch(setUserRole(authenticatedUser));
+          dispatch(setUserAuthenticated(true));
+
+          if (Platform.OS === 'android') {
+            ToastAndroid.show(
+              `Welcome ${authenticatedUser}!`,
+              ToastAndroid.SHORT,
+            );
+          } else {
+            ToastAndroid.show(
+              `Login Successful, Welcome ${authenticatedUser}!`,
+              ToastAndroid.SHORT,
+            );
+          }
+
+          navigation.navigate('Main', {});
+          return;
+        }
       }
+
+      ToastAndroid.show(
+        'Login Failed: Invalid username or password. Please try again.',
+        ToastAndroid.SHORT,
+      );
     } catch (error) {
-      ToastAndroid.show('Error:An error occurred during login. Please try again.',  ToastAndroid.SHORT );
+      console.error('Login error:', error);
+      ToastAndroid.show(
+        'Error: An error occurred during login. Please try again.',
+        ToastAndroid.SHORT,
+      );
     } finally {
       setIsLoading(false);
     }
@@ -147,10 +152,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
         start={{x: 0, y: 0}}
         end={{x: 0.6, y: 1}}
         style={{flex: 1}}>
-        <ScrollView
+        {/* <ScrollView
           contentContainerStyle={{flexGrow: 1}}
-          showsVerticalScrollIndicator={false}>
-          
+          showsVerticalScrollIndicator={false}> */}
           {/* Top Half - Carousel */}
           <View style={styles.topHalf}>
             <Image
@@ -242,24 +246,26 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
                 )}
               </TouchableOpacity>
 
-              <View style={styles.demoContainer}>
+              {/* <View style={styles.demoContainer}>
                 <Text style={styles.demoTitle}>Demo Credentials:</Text>
                 <View style={styles.demoItem}>
                   <Text style={styles.demoLabel}>Super Admin:</Text>
                   <Text style={styles.demoCredential}>
-                    {adminCredentials.superAdmin.username} / {adminCredentials.superAdmin.password}
+                    {adminCredentials.superAdmin.username} /{' '}
+                    {adminCredentials.superAdmin.password}
                   </Text>
                 </View>
                 <View style={styles.demoItem}>
                   <Text style={styles.demoLabel}>Admin:</Text>
                   <Text style={styles.demoCredential}>
-                    {adminCredentials.admin.username} / {adminCredentials.admin.password}
+                    {adminCredentials.admin.username} /{' '}
+                    {adminCredentials.admin.password}
                   </Text>
                 </View>
-              </View>
+              </View> */}
             </View>
           </View>
-        </ScrollView>
+        {/* </ScrollView> */}
       </LinearGradient>
     </KeyboardAvoidingView>
   );
@@ -304,7 +310,7 @@ const styles = StyleSheet.create({
     color: Colors.black,
   },
   bottomHalf: {
-    flex: 5,
+    flex: 6,
     backgroundColor: Colors.background,
     borderTopEndRadius: wp(12),
     borderTopLeftRadius: wp(12),
@@ -381,32 +387,32 @@ const styles = StyleSheet.create({
     fontSize: sp(18),
     fontFamily: FontFamily.BOLD,
   },
-  demoContainer: {
-    backgroundColor: Colors.greyBackground,
-    padding: wp(4),
-    borderRadius: wp(2.5),
-    marginTop: hp(2),
-  },
-  demoTitle: {
-    fontSize: sp(16),
-    fontFamily: FontFamily.MEDIUM,
-    color: Colors.black,
-    marginBottom: hp(1.5),
-    textAlign: 'center',
-  },
-  demoItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: hp(1),
-  },
-  demoLabel: {
-    fontSize: sp(14),
-    fontFamily: FontFamily.MEDIUM,
-    color: Colors.black,
-  },
-  demoCredential: {
-    fontSize: sp(14),
-    fontFamily: FontFamily.REGULAR,
-    color: Colors.grey,
-  },
+  // demoContainer: {
+  //   backgroundColor: Colors.greyBackground,
+  //   padding: wp(4),
+  //   borderRadius: wp(2.5),
+  //   marginTop: hp(2),
+  // },
+  // demoTitle: {
+  //   fontSize: sp(16),
+  //   fontFamily: FontFamily.MEDIUM,
+  //   color: Colors.black,
+  //   marginBottom: hp(1.5),
+  //   textAlign: 'center',
+  // },
+  // demoItem: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-between',
+  //   marginBottom: hp(1),
+  // },
+  // demoLabel: {
+  //   fontSize: sp(14),
+  //   fontFamily: FontFamily.MEDIUM,
+  //   color: Colors.black,
+  // },
+  // demoCredential: {
+  //   fontSize: sp(14),
+  //   fontFamily: FontFamily.REGULAR,
+  //   color: Colors.grey,
+  // },
 });
