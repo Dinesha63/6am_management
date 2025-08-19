@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, use} from 'react';
 import {View, StyleSheet, Alert, ScrollView, Text} from 'react-native';
 import {useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '../../redux/store';
@@ -21,7 +21,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAppDispatch} from '../../redux/hooks';
 import ProductsTable from './Components/ProductsTable';
 import DeliveriesTable from './Components/DeliveriesTable';
-import { fetchTodayDeliveryList, fetchTodayDeliverySummaryByProduct } from '../../redux/Features/Delivery/deliveryThunk';
+import {
+  fetchTodayDeliveryList,
+  fetchTodayDeliverySummaryByProduct,
+} from '../../redux/Features/Delivery/deliveryThunk';
+import {selectDelivery} from '../../redux/Features/Delivery/deliverySlice';
 
 interface UnifiedDashboardProps {
   userRole: 'admin' | 'superAdmin';
@@ -39,7 +43,11 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
   );
   const dispatch = useAppDispatch();
   const dataService = DashboardDataService.getInstance();
-
+  const {
+    deliverySummaryByProduct,
+    deliverySummaryByProductSku,
+    todayDeliveryList,
+  } = useSelector(selectDelivery);
   useEffect(() => {
     loadDashboardData();
   }, []);
@@ -111,41 +119,44 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
   };
 
   const tabs = getTabs();
-  const [productsData, setProductsData] = useState([ {
+  const [productsData, setProductsData] = useState([
+    {
       storeName: 'Sai Baba Colony',
       productName: 'Milk',
       quantity: '0.250 liters',
-    },]);
-    const [deliveriesData, setDeliveriesData] = useState([{
-      "customerId": "0b2d2c6a-e4b1-4695-9f56-ce1d267fdc0e",
-      "customerName": "Balaji",
-      "phoneNumber": "8675675143",
-      "storeCode": null,
-      "addressLine1": null,
-      "addressLine2": null,
-      "pincode": null,
-      "orderDetails": [
-        {
-          "productSkuCode": "PS0001",
-          "productSkuName": "Milk 250 ml",
-          "quantity": 1
-        }
-      ],
-      "orderId": "b736cf59-1b58-4d07-9206-9755fe700866",
-      "orderNo": "O0025",
-      "orderStatus": "Inprogress",
-      "orderDate": "2025-08-18T11:43:17.548048Z"
-    }
+    },
   ]);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const products = await dispatch(fetchTodayDeliverySummaryByProduct(""));
-  //     setProductsData(products);
-  //     const deliveries = await dispatch(fetchTodayDeliveryList(""));
-  //     setDeliveriesData(deliveries);
-  //   };
-  //   fetchData();
-  // }, []);
+  const [deliveriesData, setDeliveriesData] = useState([
+    {
+      customerId: '0b2d2c6a-e4b1-4695-9f56-ce1d267fdc0e',
+      customerName: 'Balaji',
+      phoneNumber: '8675675143',
+      storeCode: null,
+      addressLine1: null,
+      addressLine2: null,
+      pincode: null,
+      orderDetails: [
+        {
+          productSkuCode: 'PS0001',
+          productSkuName: 'Milk 250 ml',
+          quantity: 1,
+        },
+      ],
+      orderId: 'b736cf59-1b58-4d07-9206-9755fe700866',
+      orderNo: 'O0025',
+      orderStatus: 'Inprogress',
+      orderDate: '2025-08-18T11:43:17.548048Z',
+    },
+  ]);
+  useEffect(() => {
+    const fetchData = async () => {
+      dispatch(fetchTodayDeliverySummaryByProduct(''));
+      // setProductsData(products);
+      dispatch(fetchTodayDeliveryList(''));
+      // setDeliveriesData(deliveries);
+    };
+    fetchData();
+  }, []);
   return (
     <View style={styles.container}>
       <DashboardHeader
@@ -231,19 +242,23 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
           // </View>
           <ProductsTable
             role={userRole}
-            data={productsData} // response from products API
+            data={
+              userRole === 'admin'
+                ? deliverySummaryByProduct
+                : deliverySummaryByProductSku
+            }
           />
         )}
-{activeTab === "deliveries" && (
-  <DeliveriesTable
-    role={userRole}
-    data={deliveriesData} // response from deliveries API
-    onUpdateStatus={(orderId, status) => {
-      console.log("Update order", orderId, "to", status);
-      // call API here to update delivery status
-    }}
-  />
-)}
+        {activeTab === 'deliveries' && (
+          <DeliveriesTable
+            role={userRole}
+            data={todayDeliveryList.length > 0 ? todayDeliveryList : deliveriesData}
+            onUpdateStatus={(orderId, status) => {
+              console.log('Update order', orderId, 'to', status);
+              // call API here to update delivery status
+            }}
+          />
+        )}
         {/* {userRole === 'admin' && activeTab === 'deliveries' && (
           <View style={styles.tabContent}>
             <View style={styles.placeholderContainer}>

@@ -48,7 +48,7 @@ const DeliveriesTable: React.FC<DeliveriesTableProps> = ({ data, role, onUpdateS
               ))}
             </View>
 
-            {role === "store" && (
+            {role === "admin" && (
               <View style={styles.actions}>
                 <TouchableOpacity
                   style={[styles.btn, { backgroundColor: "green" }]}
