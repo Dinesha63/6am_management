@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchStoreListAPI }   from './storeApi';
-import { StoreListResponse }    from './store.types';
+import { fetchStoreListAPI } from './storeApi';
+import { StoreListResponse } from './store.types';
 
 export const fetchStoreList = createAsyncThunk<
-  any,
-  {},
+  StoreListResponse,
+  void,
   { rejectValue: string }
 >(
   'store/fetchStoreList',
@@ -15,4 +15,4 @@ export const fetchStoreList = createAsyncThunk<
       return rejectWithValue(err.message || 'Failed to fetch stores');
     }
   }
-); 
+);

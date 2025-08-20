@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { StoreListState, StoreItem, StoreListResponse } from './store.types';
+import { StoreListState, StoreListResponse } from './store.types';
 import { fetchStoreList } from './storeThunk';
+import { RootState } from '../../store';
 
 const initialState: StoreListState = {
   nearbyStoreDistance: 0,
@@ -20,19 +21,19 @@ const slice = createSlice({
       state.error = null;
     },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase(fetchStoreList.pending, state => {
+      .addCase(fetchStoreList.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(
         fetchStoreList.fulfilled,
         (state, action: PayloadAction<StoreListResponse>) => {
-          console.log("action.paylsssoad", action.payload)
           state.loading = false;
-          state.nearbyStoreDistance = action.payload?.data?.nearbyStoreDistance;
-          state.stores = action.payload?.data?.storeList;
+
+          state.nearbyStoreDistance = action.payload.data.nearbyStoreDistance;
+          state.stores = action.payload.data.storeList;
         }
       )
       .addCase(fetchStoreList.rejected, (state, action) => {
@@ -43,4 +44,5 @@ const slice = createSlice({
 });
 
 export const { resetStoreState } = slice.actions;
-export default slice.reducer; 
+export const selectStoreState = (state: RootState) => state.store;
+export default slice.reducer;

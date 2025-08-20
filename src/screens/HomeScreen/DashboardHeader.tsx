@@ -16,11 +16,13 @@ import {
 } from '../../utils/constants/responsiveScreen';
 import Colors from '../../utils/constants/colors';
 import {FontFamily} from '../../utils/constant';
+import { StoreItem } from '../../redux/Features/6amStore/store.types';
 
 interface DashboardHeaderProps {
   selectedLocation: string;
   onLocationChange: (location: string) => void;
   onActionPress: () => void;
+  locationData: StoreItem[];
   userRole?: 'admin' | 'superAdmin';
 }
 
@@ -28,17 +30,12 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   selectedLocation,
   onLocationChange,
   onActionPress,
+  locationData,
   userRole = 'superAdmin',
 }) => {
   const [showLocationModal, setShowLocationModal] = useState(false);
 
-  const locations = [
-    'Vedapatti',
-    'Kovaipudur',
-    'Navavoor',
-    'Ponnaiahrajapuram',
-    'All Stores',
-  ];
+  const locations = locationData?.map(store => store.storeName);
 
   return (
     <View style={styles.container}>
@@ -78,23 +75,23 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Select Location</Text>
             <ScrollView style={styles.locationList}>
-              {locations.map((location, index) => (
+              {locationData.map((location, index) => (
                 <TouchableOpacity
                   key={index}
                   style={[
                     styles.locationItem,
-                    selectedLocation === location && styles.selectedLocation,
+                    selectedLocation === location.storeName && styles.selectedLocation,
                   ]}
                   onPress={() => {
-                    onLocationChange(location);
+                    onLocationChange(location.storeName);
                     setShowLocationModal(false);
                   }}>
                   <Text
                     style={[
                       styles.locationItemText,
-                      selectedLocation === location && styles.selectedLocationText,
+                      selectedLocation === location.storeName && styles.selectedLocationText,
                     ]}>
-                    {location}
+                    {location.storeName}
                   </Text>
                 </TouchableOpacity>
               ))}

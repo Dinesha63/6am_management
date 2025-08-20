@@ -27,6 +27,8 @@ import {
   fetchTodayDeliverySummaryByProductSKU,
 } from '../../redux/Features/Delivery/deliveryThunk';
 import {selectDelivery} from '../../redux/Features/Delivery/deliverySlice';
+import { fetchStoreList } from '../../redux/Features/6amStore/storeThunk';
+import { selectStoreState } from '../../redux/Features/6amStore/storeSlice';
 
 interface UnifiedDashboardProps {
   userRole: 'admin' | 'superAdmin';
@@ -49,6 +51,8 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
     deliverySummaryByProductSku,
     todayDeliveryList,
   } = useSelector(selectDelivery);
+  const {  stores } = useSelector(selectStoreState);
+  console.log(stores, "4567890njm")
   useEffect(() => {
     loadDashboardData();
   }, []);
@@ -119,39 +123,11 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
   };
 
   const tabs = getTabs();
-  const [productsData, setProductsData] = useState([
-    {
-      storeName: 'Sai Baba Colony',
-      productName: 'Milk',
-      quantity: '0.250 liters',
-    },
-  ]);
-  const [deliveriesData, setDeliveriesData] = useState([
-    {
-      customerId: '0b2d2c6a-e4b1-4695-9f56-ce1d267fdc0e',
-      customerName: 'Balaji',
-      phoneNumber: '8675675143',
-      storeCode: null,
-      addressLine1: null,
-      addressLine2: null,
-      pincode: null,
-      orderDetails: [
-        {
-          productSkuCode: 'PS0001',
-          productSkuName: 'Milk 250 ml',
-          quantity: 1,
-        },
-      ],
-      orderId: 'b736cf59-1b58-4d07-9206-9755fe700866',
-      orderNo: 'O0025',
-      orderStatus: 'Inprogress',
-      orderDate: '2025-08-18T11:43:17.548048Z',
-    },
-  ]);
   useEffect(() => {
     const fetchData = async () => {
       dispatch(fetchTodayDeliverySummaryByProduct(""));
       dispatch(fetchTodayDeliverySummaryByProductSKU(""));
+      dispatch(fetchStoreList());
       // setProductsData(products);
       dispatch(fetchTodayDeliveryList(""));
       // setDeliveriesData(deliveries);
@@ -161,6 +137,7 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
   return (
     <View style={styles.container}>
       <DashboardHeader
+        locationData={stores}
         selectedLocation={selectedLocation}
         onLocationChange={handleLocationChange}
         onActionPress={() => handleActionPress(dispatch)}
@@ -253,7 +230,7 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
         {activeTab === 'deliveries' && (
           <DeliveriesTable
             role={userRole}
-            data={todayDeliveryList.length > 0 ? todayDeliveryList : deliveriesData}
+            data={todayDeliveryList.length > 0 ? todayDeliveryList : []}
             onUpdateStatus={(orderId, status) => {
               console.log('Update order', orderId, 'to', status);
               // call API here to update delivery status
