@@ -7,6 +7,7 @@ export const getTodayDeliverySummaryByProductAPI = async (
 ): Promise<GetTodayDeliverySummaryByProductResponse> => {
 
   try {
+    console.log('🚚 [API CALL] getTodayDeliverySummaryByProductAPI started..., storeCode:', storeCode);
     const response = await API.get(
       `/Delivery/GetTodayDeliverySummaryByProduct?StoreCode=${storeCode}`
     );

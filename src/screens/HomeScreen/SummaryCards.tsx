@@ -94,22 +94,22 @@ const SummaryCards: React.FC<SummaryCardsProps> = ({onCardPress, userRole = 'sup
       // icon: imagePaths.customer_icon,
       type: 'customers',
     },
-    {
-      title: 'WALLET',
-      value: '₹450',
-      subtitle: 'prepaid balance',
-      backgroundColor: '#E8F5E8', 
-      // icon: imagePaths.wallet_icon,
-      type: 'wallet',
-    },
-    {
-      title: 'POSTPAID DUE',
-      value: '₹300',
-      subtitle: 'amount due',
-      backgroundColor: '#FFEBEE', 
-      // icon: imagePaths.rupee_icon,
-      type: 'postpaid',
-    },
+    // {
+    //   title: 'WALLET',
+    //   value: '₹450',
+    //   subtitle: 'prepaid balance',
+    //   backgroundColor: '#E8F5E8', 
+    //   // icon: imagePaths.wallet_icon,
+    //   type: 'wallet',
+    // },
+    // {
+    //   title: 'POSTPAID DUE',
+    //   value: '₹300',
+    //   subtitle: 'amount due',
+    //   backgroundColor: '#FFEBEE', 
+    //   // icon: imagePaths.rupee_icon,
+    //   type: 'postpaid',
+    // },
   ];
 
   return (

@@ -108,7 +108,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
         if (authenticatedUser) {
           await AsyncStorage.setItem("user", JSON.stringify({
             role: authenticatedUser,
-            isAuthenticated: true
+            isAuthenticated: true,
+            storeCode: storeCode || null,
           }));
           dispatch(setUserRole(authenticatedUser));
           dispatch(setUserAuthenticated(true));

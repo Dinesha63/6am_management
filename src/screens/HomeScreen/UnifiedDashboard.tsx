@@ -27,15 +27,17 @@ import {
   fetchTodayDeliverySummaryByProductSKU,
 } from '../../redux/Features/Delivery/deliveryThunk';
 import {selectDelivery} from '../../redux/Features/Delivery/deliverySlice';
-import { fetchStoreList } from '../../redux/Features/6amStore/storeThunk';
-import { selectStoreState } from '../../redux/Features/6amStore/storeSlice';
+import {fetchStoreList} from '../../redux/Features/6amStore/storeThunk';
+import {selectStoreState} from '../../redux/Features/6amStore/storeSlice';
+import { StoreItem } from '../../redux/Features/6amStore/store.types';
 
 interface UnifiedDashboardProps {
   userRole: 'admin' | 'superAdmin';
 }
 
 const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
-  const [selectedLocation, setSelectedLocation] = useState('Vedapatti');
+  console.log('userRole:', userRole);
+  const [selectedLocation, setSelectedLocation] = useState<string>('Vedapatti');
   const [activeTab, setActiveTab] = useState(
     userRole === 'admin' ? 'products' : 'products',
   );
@@ -51,8 +53,27 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
     deliverySummaryByProductSku,
     todayDeliveryList,
   } = useSelector(selectDelivery);
-  const {  stores } = useSelector(selectStoreState);
-  console.log(stores, "4567890njm")
+  console.log(
+    deliverySummaryByProduct,
+    deliverySummaryByProductSku,
+    todayDeliveryList,
+    'deliverySummaryByProduct, deliverySummaryByProductSku, todayDeliveryList',
+  );
+  const {stores} = useSelector(selectStoreState);
+const storesWithAll: StoreItem[] = [
+  {
+    storeId: "all",
+    storeCode: "ALL",
+    storeName: "All",
+    latitude: "",
+    longitude: "",
+    imageUrl: "",
+    address: "",
+  },
+  ...stores,
+];
+
+  console.log(stores, '4567890njm');
   useEffect(() => {
     loadDashboardData();
   }, []);
@@ -74,7 +95,7 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
     }
   };
 
-  const handleLocationChange = (location: string) => {
+  const handleLocationChange = async (location: string) => {
     setSelectedLocation(location);
   };
 
@@ -125,15 +146,40 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
   const tabs = getTabs();
   useEffect(() => {
     const fetchData = async () => {
-      dispatch(fetchTodayDeliverySummaryByProduct(""));
-      dispatch(fetchTodayDeliverySummaryByProductSKU(""));
-      dispatch(fetchStoreList());
-      // setProductsData(products);
-      dispatch(fetchTodayDeliveryList(""));
-      // setDeliveriesData(deliveries);
+      const storedUser = await AsyncStorage.getItem('user');
+      console.log(storedUser, '<-- storedUser');
+
+      if (storedUser) {
+        const {storeCode} = JSON.parse(storedUser);
+
+        await dispatch(fetchTodayDeliverySummaryByProduct(storeCode || ''));
+        await dispatch(fetchTodayDeliverySummaryByProductSKU(storeCode || ''));
+        await dispatch(fetchStoreList());
+        await dispatch(fetchTodayDeliveryList(storeCode || ''));
+      }
     };
+
     fetchData();
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    const setStoreFromUser = async () => {
+      const storedUser = await AsyncStorage.getItem('user');
+      if (storedUser) {
+        const {storeCode} = JSON.parse(storedUser);
+        const selectedStore = stores.find(
+          store => store.storeCode === storeCode,
+        );
+        console.log(selectedStore, '<-- selectedStore');
+        setSelectedLocation(selectedStore?.storeName || '');
+      }
+    };
+
+    if (stores.length > 0) {
+      setStoreFromUser();
+    }
+  }, [stores]);
+
   return (
     <View style={styles.container}>
       <DashboardHeader
@@ -220,11 +266,19 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
           // </View>
           <ProductsTable
             role={userRole}
-            data={
+            todayData={
+              userRole === 'admin'
+                ? deliverySummaryByProductSku
+                : deliverySummaryByProductSku
+            }
+            tomorrowData={
               userRole === 'admin'
                 ? deliverySummaryByProduct
                 : deliverySummaryByProductSku
             }
+            locationData={storesWithAll}
+            selectedLocation={selectedLocation}
+            onStoreChange={handleLocationChange}
           />
         )}
         {activeTab === 'deliveries' && (

@@ -16,7 +16,7 @@ import {
 } from '../../utils/constants/responsiveScreen';
 import Colors from '../../utils/constants/colors';
 import {FontFamily} from '../../utils/constant';
-import { StoreItem } from '../../redux/Features/6amStore/store.types';
+import {StoreItem} from '../../redux/Features/6amStore/store.types';
 
 interface DashboardHeaderProps {
   selectedLocation: string;
@@ -35,17 +35,42 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
 }) => {
   const [showLocationModal, setShowLocationModal] = useState(false);
 
-  const locations = locationData?.map(store => store.storeName);
-
   return (
     <View style={styles.container}>
       <View style={styles.topRow}>
         <View style={styles.locationSection}>
-          <Text style={styles.greeting}>Hello {userRole === 'admin' ? 'Admin' : 'SuperAdmin'}</Text>
-          <TouchableOpacity
+          <Text style={styles.greeting}>
+            Hello {userRole === 'admin' ? 'Admin' : 'SuperAdmin'}
+          </Text>
+          {/* <TouchableOpacity
             style={styles.locationSelector}
             onPress={() => setShowLocationModal(true)}>
             <Text style={styles.locationText}>{selectedLocation}</Text>
+            <SimpleIcon
+              source={imagePaths.Location_Icon}
+              style={styles.locationIcon}
+            />
+            <SimpleIcon
+              source={imagePaths.drop_down_arrow_icon}
+              style={styles.dropdownIcon}
+            />
+          </TouchableOpacity> */}
+          <TouchableOpacity
+            style={[
+              styles.locationSelector,
+              selectedLocation !== '' && {opacity: 0.5},
+              userRole !== 'superAdmin' && {opacity: 0.6}, // dim for admin
+            ]}
+            onPress={() => {
+              if (userRole === 'superAdmin') {
+                setShowLocationModal(true);
+              }
+            }}
+            disabled={userRole !== 'superAdmin'} // block press for admin
+          >
+            <Text style={styles.locationText}>
+              {selectedLocation || 'Select Location'}
+            </Text>
             <SimpleIcon
               source={imagePaths.Location_Icon}
               style={styles.locationIcon}
@@ -80,7 +105,8 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                   key={index}
                   style={[
                     styles.locationItem,
-                    selectedLocation === location.storeName && styles.selectedLocation,
+                    selectedLocation === location.storeName &&
+                      styles.selectedLocation,
                   ]}
                   onPress={() => {
                     onLocationChange(location.storeName);
@@ -89,7 +115,8 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                   <Text
                     style={[
                       styles.locationItemText,
-                      selectedLocation === location.storeName && styles.selectedLocationText,
+                      selectedLocation === location.storeName &&
+                        styles.selectedLocationText,
                     ]}>
                     {location.storeName}
                   </Text>
@@ -167,7 +194,7 @@ const styles = StyleSheet.create({
     width: wp(6),
     height: wp(6),
     tintColor: Colors.black,
-    transform: [{ rotate: '180deg' }],
+    transform: [{rotate: '180deg'}],
   },
   modalOverlay: {
     flex: 1,

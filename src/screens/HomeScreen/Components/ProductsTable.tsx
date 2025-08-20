@@ -1,6 +1,15 @@
 // ProductsTable.tsx
-import React, { useState } from "react";
-import { View, Text, FlatList, StyleSheet, TouchableOpacity,ScrollView } from "react-native";
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+import StoreDropdown from './StoreDropdown';
+import {StoreItem} from '../../../redux/Features/6amStore/store.types';
 
 interface ProductItem {
   storeName?: string;
@@ -14,25 +23,34 @@ interface ProductItem {
 }
 
 interface ProductsTableProps {
-  data: ProductItem[];
-  role: "superAdmin" | "admin";
-  onStoreChange?: (store: string) => void;
+  todayData: ProductItem[];
+  tomorrowData: ProductItem[];
+  //   data: ProductItem[];
+  role: 'superAdmin' | 'admin';
+  onStoreChange?: (location: string) => void;
   onExport?: () => void;
   selectedStore?: string;
   todayItems?: number;
   tomorrowItems?: number;
+  locationData: StoreItem[];
+  selectedLocation: string;
 }
 
-const ProductsTable: React.FC<ProductsTableProps> = ({ 
-  data, 
-  role, 
-  onStoreChange, 
-  onExport, 
-  selectedStore = "Vedapatti",
+const ProductsTable: React.FC<ProductsTableProps> = ({
+  todayData = [],
+  tomorrowData = [],
+  role,
+  onStoreChange,
+  onExport,
+  selectedStore = 'Vedapatti',
   todayItems = 824,
-  tomorrowItems = 997
+  tomorrowItems = 997,
+  locationData,
+  selectedLocation,
 }) => {
+  console.log(todayData, tomorrowData, 'data in ProductsTable');
   const [activeTab, setActiveTab] = useState<'today' | 'tomorrow'>('today');
+  const filteredData = activeTab === 'today' ? todayData : tomorrowData;
 
   // Helper function to get today's date in YYYY-MM-DD format
   const getTodayDate = () => {
@@ -48,86 +66,96 @@ const ProductsTable: React.FC<ProductsTableProps> = ({
   };
 
   // Filter products based on selected tab
-  const getFilteredData = () => {
-    if (!data || data.length === 0) return [];
-    
-    const todayDate = getTodayDate();
-    const tomorrowDate = getTomorrowDate();
-    
-    return data.filter(item => {
-       const itemDate = item.date || item.deliveryDate;
-       if (!itemDate) return activeTab === 'today'; // Default to today if no date
-       
-       // Handle string dates
-       const dateStr = itemDate.includes('T') ? itemDate.split('T')[0] : itemDate;
-       
-       if (activeTab === 'today') {
-         return dateStr === todayDate;
-       } else {
-         return dateStr === tomorrowDate;
-       }
-     });
-  };
+  //   const getFilteredData = () => {
+  //     if (!data || data.length === 0) return [];
 
-  const filteredData = getFilteredData();
+  //     const todayDate = getTodayDate();
+  //     const tomorrowDate = getTomorrowDate();
+
+  //     return data.filter(item => {
+  //        const itemDate = item.date || item.deliveryDate;
+  //        if (!itemDate) return activeTab === 'today'; // Default to today if no date
+
+  //        // Handle string dates
+  //        const dateStr = itemDate.includes('T') ? itemDate.split('T')[0] : itemDate;
+
+  //        if (activeTab === 'today') {
+  //          return dateStr === todayDate;
+  //        } else {
+  //          return dateStr === tomorrowDate;
+  //        }
+  //      });
+  //   };
+
+  //   const filteredData = getFilteredData();
 
   // Calculate dynamic item counts
-  const getTodayItemsCount = () => {
-    if (!data || data.length === 0) return 0;
-    const todayDate = getTodayDate();
-    return data.filter(item => {
-       const itemDate = item.date || item.deliveryDate;
-       if (!itemDate) return true; // Default to today if no date
-       const dateStr = itemDate.includes('T') ? itemDate.split('T')[0] : itemDate;
-       return dateStr === todayDate;
-     }).length;
-  };
+  //   const getTodayItemsCount = () => {
+  //     if (!data || data.length === 0) return 0;
+  //     const todayDate = getTodayDate();
+  //     return data.filter(item => {
+  //        const itemDate = item.date || item.deliveryDate;
+  //        if (!itemDate) return true; // Default to today if no date
+  //        const dateStr = itemDate.includes('T') ? itemDate.split('T')[0] : itemDate;
+  //        return dateStr === todayDate;
+  //      }).length;
+  //   };
 
-  const getTomorrowItemsCount = () => {
-    if (!data || data.length === 0) return 0;
-    const tomorrowDate = getTomorrowDate();
-    return data.filter(item => {
-       const itemDate = item.date || item.deliveryDate;
-       if (!itemDate) return false;
-       const dateStr = itemDate.includes('T') ? itemDate.split('T')[0] : itemDate;
-       return dateStr === tomorrowDate;
-     }).length;
-  };
+  //   const getTomorrowItemsCount = () => {
+  //     if (!data || data.length === 0) return 0;
+  //     const tomorrowDate = getTomorrowDate();
+  //     return data.filter(item => {
+  //        const itemDate = item.date || item.deliveryDate;
+  //        if (!itemDate) return false;
+  //        const dateStr = itemDate.includes('T') ? itemDate.split('T')[0] : itemDate;
+  //        return dateStr === tomorrowDate;
+  //      }).length;
+  //   };
 
-  const dynamicTodayItems = getTodayItemsCount();
-  const dynamicTomorrowItems = getTomorrowItemsCount();
+  //   const dynamicTodayItems = getTodayItemsCount();
+  //   const dynamicTomorrowItems = getTomorrowItemsCount();
 
-  if (!data || data.length === 0) {
+  //   if (!data || data.length === 0) {
+  //     return <Text style={styles.emptyText}>No products available</Text>;
+  //   }
+
+  const dynamicTodayItems = todayData.length;
+  const dynamicTomorrowItems = tomorrowData.length;
+
+  if (!todayData.length && !tomorrowData.length) {
     return <Text style={styles.emptyText}>No products available</Text>;
   }
 
   return (
     <View style={styles.container}>
       {/* Top Navigation Bar - Only for SuperAdmin */}
-      {role === "superAdmin" && (
-        <ScrollView 
-          horizontal 
+      {role === 'superAdmin' && (
+        <ScrollView
+          horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.scrollContainer}
-        >
+          contentContainerStyle={styles.scrollContainer}>
           <View style={styles.topNavContainer}>
             <View style={styles.titleContainer}>
               <Text style={styles.productIcon}>📦</Text>
               <Text style={styles.titleText}>Product Requirement</Text>
             </View>
             <View style={styles.actionsContainer}>
-              <TouchableOpacity 
-                style={styles.storeSelector}
-                onPress={() => onStoreChange?.(selectedStore)}
+              <TouchableOpacity
+              // style={styles.storeSelector}
+              // onPress={() => onStoreChange?.(selectedStore)}
               >
-                <Text style={styles.storeSelectorIcon}>📍</Text>
+                {/* <Text style={styles.storeSelectorIcon}>📍</Text>
                 <Text style={styles.storeSelectorText}>{selectedStore}</Text>
-                <Text style={styles.dropdownIcon}>▼</Text>
+                <Text style={styles.dropdownIcon}>▼</Text> */}
+                <StoreDropdown
+                  selectedStore={selectedLocation}
+                  onStoreChange={onStoreChange ?? (() => {})}
+                  locationData={locationData}
+                />
               </TouchableOpacity>
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={styles.exportButton}
-                onPress={() => onExport?.()}
-              >
+                onPress={() => onExport?.()}>
                 <Text style={styles.exportIcon}>📤</Text>
                 <Text style={styles.exportText}>Export</Text>
               </TouchableOpacity>
@@ -135,7 +163,7 @@ const ProductsTable: React.FC<ProductsTableProps> = ({
           </View>
         </ScrollView>
       )}
-      
+
       {/* Header Section */}
       <View style={styles.headerContainer}>
         <View style={styles.headerTitleContainer}>
@@ -143,41 +171,53 @@ const ProductsTable: React.FC<ProductsTableProps> = ({
           <Text style={styles.headerTitle}>Total Product Requirements</Text>
         </View>
       </View>
-      
+
       {/* Tab Section */}
-      <View style={styles.tabContainer}>
-        <TouchableOpacity 
-          style={[styles.tab, activeTab === 'today' && styles.activeTab]}
-          onPress={() => setActiveTab('today')}
-        >
-          <Text style={[styles.tabText, activeTab === 'today' && styles.activeTabText]}>
-            Today ({dynamicTodayItems} items)
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={[styles.tab, activeTab === 'tomorrow' && styles.activeTab]}
-          onPress={() => setActiveTab('tomorrow')}
-        >
-          <Text style={[styles.tabText, activeTab === 'tomorrow' && styles.activeTabText]}>
-            Tomorrow ({dynamicTomorrowItems} items)
-          </Text>
-        </TouchableOpacity>
-      </View>
-      
+      {role === 'superAdmin' && (
+        <View style={styles.tabContainer}>
+          <TouchableOpacity
+            style={[styles.tab, activeTab === 'today' && styles.activeTab]}
+            onPress={() => setActiveTab('today')}>
+            <Text
+              style={[
+                styles.tabText,
+                activeTab === 'today' && styles.activeTabText,
+              ]}>
+              Today ({dynamicTodayItems} items)
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.tab, activeTab === 'tomorrow' && styles.activeTab]}
+            onPress={() => setActiveTab('tomorrow')}>
+            <Text
+              style={[
+                styles.tabText,
+                activeTab === 'tomorrow' && styles.activeTabText,
+              ]}>
+              Tomorrow ({dynamicTomorrowItems} items)
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
       {/* Products List */}
       <FlatList
         data={filteredData}
         keyExtractor={(_, i) => i.toString()}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
+        renderItem={({item}) => (
           <View style={styles.productCard}>
             <View style={styles.productInfo}>
               <Text style={styles.productName}>
                 {item.productSkuName || item.productName}
               </Text>
-              <Text style={styles.productSku}>
+              {item.productSkuName && (
+                <Text style={styles.productSku}>
+                  SKU: {item.productSkuName}
+                </Text>
+              )}
+              {/* <Text style={styles.productSku}>
                 SKU: {item.sku || 'MILK-250'}
-              </Text>
+              </Text> */}
               <Text style={styles.productLocation}>
                 {item.location || item.storeName || selectedStore}
               </Text>
@@ -218,13 +258,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   productIcon: {
-    fontSize: 20,
-    marginRight: 8,
+    fontSize: 16,
+    marginRight: 4,
   },
   titleText: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
     color: '#212529',
+    marginRight: 8,
   },
   actionsContainer: {
     flexDirection: 'row',
@@ -281,7 +322,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderColor: '#e9ecef',
     borderWidth: 1,
-
   },
   headerTitleContainer: {
     flexDirection: 'row',
@@ -369,7 +409,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   quantityNumber: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: '700',
     color: '#212529',
   },
