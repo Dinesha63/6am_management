@@ -95,21 +95,21 @@ android {
         keyAlias 'androiddebugkey'
         keyPassword 'android'
     }
-    //     release {
-    //     storeFile file('SixamApp.keystore')
-    //     storePassword 'SixamApp@123'
-    //     keyAlias 'Sixam-key-alias'
-    //     keyPassword 'SixamApp@123'
-    // }
+        release {
+        storeFile file("sixammanagement.keystore")
+        storePassword "sixamManagement"
+        keyAlias "sixammanagement-key-alias"
+        keyPassword "sixamManagement"
+    }
 
-     release {
-            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
-                storeFile file(MYAPP_UPLOAD_STORE_FILE)
-                storePassword MYAPP_UPLOAD_STORE_PASSWORD
-                keyAlias MYAPP_UPLOAD_KEY_ALIAS
-                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
-            }
-        }
+    //  release {
+    //         if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+    //             storeFile file(MYAPP_UPLOAD_STORE_FILE)
+    //             storePassword MYAPP_UPLOAD_STORE_PASSWORD
+    //             keyAlias MYAPP_UPLOAD_KEY_ALIAS
+    //             keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+    //         }
+    //     }
 }
     buildTypes {
         debug {
