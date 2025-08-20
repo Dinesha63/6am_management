@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { DeliverySummaryByProduct, DeliverySummaryByProductSku, GetTodayDeliverySummaryByProductResponse, GetTodayDeliverySummaryBySkuResponse, TodayDelivery, TodayDeliveryListResponse } from "./delivery.types";
-import { getTodayDeliveryListAPI, getTodayDeliverySummaryByProductAPI, getTodayDeliverySummaryByProductSKUAPI } from "./delivery.api";
+import { getTodayDeliveryListAPI, getTodayDeliverySummaryByProductAPI, getTodayDeliverySummaryByProductSKUAPI, getTomorrowDeliverySummaryByProductAPI } from "./delivery.api";
 
 export const fetchTodayDeliverySummaryByProduct = createAsyncThunk<
   DeliverySummaryByProduct[], 
@@ -23,6 +23,18 @@ export const fetchTodayDeliverySummaryByProductSKU = createAsyncThunk<
   try {
     const response: GetTodayDeliverySummaryBySkuResponse = await getTodayDeliverySummaryByProductSKUAPI(storeCode);
     return response.data; // return only data array
+  } catch (error: any) {
+    return rejectWithValue(error.message || 'Failed to fetch delivery summary');
+  }
+});
+export const fetchTomorrowDeliverySummaryByProduct = createAsyncThunk<
+  DeliverySummaryByProduct[], 
+  string,              
+  { rejectValue: string }
+>('delivery/fetchTomorrowDeliverySummaryByProduct', async (storeCode="", { rejectWithValue }) => {
+  try {
+    const response: GetTodayDeliverySummaryByProductResponse = await getTomorrowDeliverySummaryByProductAPI(storeCode);
+    return response.data;
   } catch (error: any) {
     return rejectWithValue(error.message || 'Failed to fetch delivery summary');
   }

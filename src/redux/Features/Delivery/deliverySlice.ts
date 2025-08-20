@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { DeliverySummaryByProduct, DeliverySummaryByProductSku, TodayDelivery } from './delivery.types';
 import { RootState } from '../../store';
-import { fetchTodayDeliveryList, fetchTodayDeliverySummaryByProduct, fetchTodayDeliverySummaryByProductSKU } from './deliveryThunk';
+import { fetchTodayDeliveryList, fetchTodayDeliverySummaryByProduct, fetchTodayDeliverySummaryByProductSKU, fetchTomorrowDeliverySummaryByProduct } from './deliveryThunk';
 
 export interface DeliveryState {
   deliverySummaryByProduct: DeliverySummaryByProduct[];
   deliverySummaryByProductSku: DeliverySummaryByProductSku[];
+  tomorrowDeliverySummaryByProduct: DeliverySummaryByProduct[];
   todayDeliveryList: TodayDelivery[];
   loading: boolean;
   error: string | null;
@@ -14,6 +15,7 @@ export interface DeliveryState {
 const initialState: DeliveryState = {
   deliverySummaryByProduct: [],
   deliverySummaryByProductSku: [],
+  tomorrowDeliverySummaryByProduct: [],
   todayDeliveryList: [],
   loading: false,
   error: null,
@@ -65,6 +67,18 @@ const deliverySlice = createSlice({
         state.todayDeliveryList = action.payload;
       })
       .addCase(fetchTodayDeliveryList.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Something went wrong';
+      })
+      .addCase(fetchTomorrowDeliverySummaryByProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchTomorrowDeliverySummaryByProduct.fulfilled, (state, action: PayloadAction<DeliverySummaryByProduct[]>) => {
+        state.loading = false;
+        state.tomorrowDeliverySummaryByProduct = action.payload;
+      })
+      .addCase(fetchTomorrowDeliverySummaryByProduct.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Something went wrong';
       });

@@ -25,6 +25,7 @@ import {
   fetchTodayDeliveryList,
   fetchTodayDeliverySummaryByProduct,
   fetchTodayDeliverySummaryByProductSKU,
+  fetchTomorrowDeliverySummaryByProduct,
 } from '../../redux/Features/Delivery/deliveryThunk';
 import {selectDelivery} from '../../redux/Features/Delivery/deliverySlice';
 import {fetchStoreList} from '../../redux/Features/6amStore/storeThunk';
@@ -52,11 +53,13 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
     deliverySummaryByProduct,
     deliverySummaryByProductSku,
     todayDeliveryList,
+    tomorrowDeliverySummaryByProduct,
   } = useSelector(selectDelivery);
   console.log(
     deliverySummaryByProduct,
     deliverySummaryByProductSku,
     todayDeliveryList,
+    tomorrowDeliverySummaryByProduct,
     'deliverySummaryByProduct, deliverySummaryByProductSku, todayDeliveryList',
   );
   const {stores} = useSelector(selectStoreState);
@@ -154,8 +157,9 @@ const storesWithAll: StoreItem[] = [
 
         await dispatch(fetchTodayDeliverySummaryByProduct(storeCode || ''));
         await dispatch(fetchTodayDeliverySummaryByProductSKU(storeCode || ''));
-        await dispatch(fetchStoreList());
         await dispatch(fetchTodayDeliveryList(storeCode || ''));
+        await dispatch(fetchStoreList());
+        await dispatch(fetchTomorrowDeliverySummaryByProduct(storeCode || ''));
       }
     };
 
@@ -179,11 +183,24 @@ const storesWithAll: StoreItem[] = [
       setStoreFromUser();
     }
   }, [stores]);
+  useEffect(() => {
+    let storeCode=storesWithAll.find(store => store.storeName === selectedLocation)?.storeCode || '';
+    if(storeCode) {
+      Promise.all([
+        dispatch(fetchTodayDeliverySummaryByProduct(storeCode || '')),
+        dispatch(fetchTodayDeliverySummaryByProductSKU(storeCode || '')),
+        dispatch(fetchTodayDeliveryList(storeCode || '')),
+        dispatch(fetchStoreList()),
+        dispatch(fetchTomorrowDeliverySummaryByProduct(storeCode || ''))
+      ]);
+    }
+
+  }, [selectedLocation, dispatch]);
 
   return (
     <View style={styles.container}>
       <DashboardHeader
-        locationData={stores}
+        locationData={storesWithAll}
         selectedLocation={selectedLocation}
         onLocationChange={handleLocationChange}
         onActionPress={() => handleActionPress(dispatch)}
@@ -273,8 +290,8 @@ const storesWithAll: StoreItem[] = [
             }
             tomorrowData={
               userRole === 'admin'
-                ? deliverySummaryByProduct
-                : deliverySummaryByProductSku
+                ? tomorrowDeliverySummaryByProduct
+                : tomorrowDeliverySummaryByProduct
             }
             locationData={storesWithAll}
             selectedLocation={selectedLocation}
@@ -289,6 +306,7 @@ const storesWithAll: StoreItem[] = [
               console.log('Update order', orderId, 'to', status);
               // call API here to update delivery status
             }}
+            selectedStore={selectedLocation}
           />
         )}
         {/* {userRole === 'admin' && activeTab === 'deliveries' && (

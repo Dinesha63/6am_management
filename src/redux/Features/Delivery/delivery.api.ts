@@ -18,6 +18,24 @@ export const getTodayDeliverySummaryByProductAPI = async (
     throw error;
   }
 };
+
+export const getTomorrowDeliverySummaryByProductAPI = async (
+  storeCode: string
+): Promise<GetTodayDeliverySummaryByProductResponse> => {
+
+  try {
+    console.log('🚚 [API CALL] getTomorrowDeliverySummaryByProductAPI started..., storeCode:', storeCode);
+    const response = await API.get(
+      `/Delivery/GetTomorrowDeliverySummaryByProduct?StoreCode=${storeCode}`
+    );
+    console.log('✅ [API SUCCESS] Delivery Summary Response:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('❌ [API ERROR] Failed to fetch delivery summary:', error);
+    throw error;
+  }
+};
+
 export const getTodayDeliverySummaryByProductSKUAPI = async (
   storeCode: string
 ): Promise<GetTodayDeliverySummaryBySkuResponse> => {

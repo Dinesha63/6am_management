@@ -10,16 +10,19 @@ interface DeliveryDetail {
 
 interface DeliveryItem {
   customerId: string;
-  customerName: string;
-  phoneNumber: string;
-  orderId: string;
-  orderNo: string;
-  orderStatus: string;
-  orderDate: string;
-  deliveredDate: string | null;
-  cancelledDate: string | null;
-  deliveryDetail: DeliveryDetail[];
-  address?: string; // Added address field
+    customerName: string;
+    phoneNumber: string;
+    storeCode: string | null;
+    addressLine1: string | null;
+    addressLine2: string | null;
+    pincode: string | null;
+    deliveryDetail: DeliveryDetail[]; 
+    orderId: string;
+    orderNo: string;
+    orderStatus: string;
+    orderDate: string;     
+    deliveredDate: string | null;  
+    cancelledDate: string | null;
 }
 
 interface DeliveriesTableProps {
@@ -42,6 +45,7 @@ const DeliveriesTable: React.FC<DeliveriesTableProps> = ({
   if (!data || data.length === 0) {
     return <Text style={styles.emptyText}>No deliveries found</Text>;
   }
+  console.log(data, 'Deliveries Data');
 
   const getStatusBadge = (status: string) => {
     switch (status.toLowerCase()) {
@@ -113,7 +117,7 @@ const DeliveriesTable: React.FC<DeliveriesTableProps> = ({
       <View style={styles.headerContainer}>
         <View style={styles.locationContainer}>
           <Text style={styles.locationIcon}>📍</Text>
-          <Text style={styles.locationText}>Vedapatti</Text>
+          <Text style={styles.locationText}>{selectedStore}</Text>
         </View>
         <View style={styles.statusSummary}>
           <View style={styles.statusItem}>
@@ -144,7 +148,8 @@ const DeliveriesTable: React.FC<DeliveriesTableProps> = ({
                 <View style={styles.customerInfo}>
                   <Text style={styles.customerName}>{item.customerName}</Text>
                   <Text style={styles.customerAddress}>
-                    {item.address || '123 Main Street'}
+                    {item.addressLine1 && <Text>{item.addressLine1}</Text>}
+                    {item.addressLine2 && <Text>{item.addressLine2}</Text>}
                   </Text>
                 </View>
                 <View style={styles.timeAndStatus}>
