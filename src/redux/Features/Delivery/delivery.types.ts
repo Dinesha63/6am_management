@@ -37,14 +37,16 @@ export interface TodayDelivery {
   addressLine1: string | null;
   addressLine2: string | null;
   pincode: string | null;
-  orderDetails: OrderDetail[];
+  deliveryDetail: DeliveryDetail[]; 
   orderId: string;
   orderNo: string;
   orderStatus: string;
-  orderDate: string; // ISO string
+  orderDate: string;     
+  deliveredDate: string | null;  
+  cancelledDate: string | null;  
 }
 
-export interface OrderDetail {
+export interface DeliveryDetail {
   productSkuCode: string;
   productSkuName: string;
   quantity: number;

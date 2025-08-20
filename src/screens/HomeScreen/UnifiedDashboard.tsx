@@ -24,6 +24,7 @@ import DeliveriesTable from './Components/DeliveriesTable';
 import {
   fetchTodayDeliveryList,
   fetchTodayDeliverySummaryByProduct,
+  fetchTodayDeliverySummaryByProductSKU,
 } from '../../redux/Features/Delivery/deliveryThunk';
 import {selectDelivery} from '../../redux/Features/Delivery/deliverySlice';
 
@@ -51,7 +52,6 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
   useEffect(() => {
     loadDashboardData();
   }, []);
-
   const loadDashboardData = async () => {
     try {
       const data = await dataService.refreshData();
@@ -150,9 +150,10 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
   ]);
   useEffect(() => {
     const fetchData = async () => {
-      dispatch(fetchTodayDeliverySummaryByProduct(''));
+      dispatch(fetchTodayDeliverySummaryByProduct(""));
+      dispatch(fetchTodayDeliverySummaryByProductSKU(""));
       // setProductsData(products);
-      dispatch(fetchTodayDeliveryList(''));
+      dispatch(fetchTodayDeliveryList(""));
       // setDeliveriesData(deliveries);
     };
     fetchData();

@@ -5,7 +5,6 @@ import { GetTodayDeliverySummaryByProductResponse, GetTodayDeliverySummaryBySkuR
 export const getTodayDeliverySummaryByProductAPI = async (
   storeCode: string
 ): Promise<GetTodayDeliverySummaryByProductResponse> => {
-  console.log('🚚 [API CALL] getTodayDeliverySummaryByProductAPI started...');
 
   try {
     const response = await API.get(

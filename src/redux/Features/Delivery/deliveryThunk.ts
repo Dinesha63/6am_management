@@ -6,7 +6,7 @@ export const fetchTodayDeliverySummaryByProduct = createAsyncThunk<
   DeliverySummaryByProduct[], 
   string,              
   { rejectValue: string }
->('delivery/fetchTodayDeliverySummaryByProduct', async (storeCode, { rejectWithValue }) => {
+>('delivery/fetchTodayDeliverySummaryByProduct', async (storeCode="", { rejectWithValue }) => {
   try {
     const response: GetTodayDeliverySummaryByProductResponse = await getTodayDeliverySummaryByProductAPI(storeCode);
     return response.data; // return only data array
@@ -19,7 +19,7 @@ export const fetchTodayDeliverySummaryByProductSKU = createAsyncThunk<
   DeliverySummaryByProductSku[], 
   string,              
   { rejectValue: string }
->('delivery/fetchTodayDeliverySummaryByProductSKU', async (storeCode, { rejectWithValue }) => {
+>('delivery/fetchTodayDeliverySummaryByProductSKU', async (storeCode="", { rejectWithValue }) => {
   try {
     const response: GetTodayDeliverySummaryBySkuResponse = await getTodayDeliverySummaryByProductSKUAPI(storeCode);
     return response.data; // return only data array
@@ -31,7 +31,7 @@ export const fetchTodayDeliveryList = createAsyncThunk<
   TodayDelivery[], 
   string,         
   { rejectValue: string }
->('deliveryList/fetchTodayDeliveryList', async (storeCode, { rejectWithValue }) => {
+>('deliveryList/fetchTodayDeliveryList', async (storeCode="", { rejectWithValue }) => {
   try {
     const response: TodayDeliveryListResponse = await getTodayDeliveryListAPI(storeCode);
     return response.data;
