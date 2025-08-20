@@ -1,6 +1,6 @@
 // ProductsTable.tsx
 import React, { useState } from "react";
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, StyleSheet, TouchableOpacity,ScrollView } from "react-native";
 
 interface ProductItem {
   storeName?: string;
@@ -105,29 +105,35 @@ const ProductsTable: React.FC<ProductsTableProps> = ({
     <View style={styles.container}>
       {/* Top Navigation Bar - Only for SuperAdmin */}
       {role === "superAdmin" && (
-        <View style={styles.topNavContainer}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.productIcon}>📦</Text>
-            <Text style={styles.titleText}>Product Requirement</Text>
+        <ScrollView 
+          horizontal 
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.scrollContainer}
+        >
+          <View style={styles.topNavContainer}>
+            <View style={styles.titleContainer}>
+              <Text style={styles.productIcon}>📦</Text>
+              <Text style={styles.titleText}>Product Requirement</Text>
+            </View>
+            <View style={styles.actionsContainer}>
+              <TouchableOpacity 
+                style={styles.storeSelector}
+                onPress={() => onStoreChange?.(selectedStore)}
+              >
+                <Text style={styles.storeSelectorIcon}>📍</Text>
+                <Text style={styles.storeSelectorText}>{selectedStore}</Text>
+                <Text style={styles.dropdownIcon}>▼</Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                style={styles.exportButton}
+                onPress={() => onExport?.()}
+              >
+                <Text style={styles.exportIcon}>📤</Text>
+                <Text style={styles.exportText}>Export</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.actionsContainer}>
-            <TouchableOpacity 
-              style={styles.storeSelector}
-              onPress={() => onStoreChange?.(selectedStore)}
-            >
-              <Text style={styles.storeSelectorIcon}>📍</Text>
-              <Text style={styles.storeSelectorText}>{selectedStore}</Text>
-              <Text style={styles.dropdownIcon}>▼</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={styles.exportButton}
-              onPress={() => onExport?.()}
-            >
-              <Text style={styles.exportIcon}>📤</Text>
-              <Text style={styles.exportText}>Export</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        </ScrollView>
       )}
       
       {/* Header Section */}
@@ -193,6 +199,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f9fa',
   },
   // Top Navigation Bar Styles
+  scrollContainer: {
+    flexGrow: 1,
+  },
   topNavContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -201,7 +210,8 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     backgroundColor: '#ffffff',
     borderBottomWidth: 1,
-    borderBottomColor: '#e9ecef',
+    borderBottomColor: '#e0e0e0',
+    minWidth: '100%',
   },
   titleContainer: {
     flexDirection: 'row',
@@ -269,14 +279,9 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginHorizontal: 16,
     borderRadius: 12,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
+    borderColor: '#e9ecef',
+    borderWidth: 1,
+
   },
   headerTitleContainer: {
     flexDirection: 'row',
@@ -335,18 +340,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#ffffff',
     marginHorizontal: 16,
-    marginVertical: 4,
+    marginVertical: 8,
     paddingHorizontal: 16,
     paddingVertical: 16,
     borderRadius: 12,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 2,
+    borderColor: '#d5d9e0',
+    borderWidth: 1,
   },
   productInfo: {
     flex: 1,

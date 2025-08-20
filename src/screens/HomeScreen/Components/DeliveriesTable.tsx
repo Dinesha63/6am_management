@@ -299,17 +299,12 @@ const styles = StyleSheet.create({
   deliveryCard: {
     backgroundColor: '#ffffff',
     marginHorizontal: 16,
-    marginVertical: 4,
+    marginVertical: 8,
     borderRadius: 8,
     padding: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    borderColor: '#d5d9e0',
+    borderWidth: 1,
+
   },
   cardHeader: {
     flexDirection: 'row',

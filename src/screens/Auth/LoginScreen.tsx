@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useContext, useEffect, useRef} from 'react';
 import {
   View,
   Text,
@@ -44,6 +44,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
 
   // Carousel state
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const scrollViewRef = useRef<ScrollView>(null);
+  const passwordInputRef = useRef<TextInput>(null);
 
   const apiContext = useContext(ApiContext);
   const dispatch = useAppDispatch();
@@ -152,9 +154,11 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
         start={{x: 0, y: 0}}
         end={{x: 0.6, y: 1}}
         style={{flex: 1}}>
-        {/* <ScrollView
+        <ScrollView
+          ref={scrollViewRef}
           contentContainerStyle={{flexGrow: 1}}
-          showsVerticalScrollIndicator={false}> */}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled">
           {/* Top Half - Carousel */}
           <View style={styles.topHalf}>
             <Image
@@ -194,6 +198,22 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
                     autoCapitalize="none"
                     autoCorrect={false}
                     editable={!isLoading}
+                    returnKeyType="done"
+                    onFocus={() => {
+                      // Auto scroll when username field is focused to show form area
+                      setTimeout(() => {
+                        scrollViewRef.current?.scrollTo({y: hp(25), animated: true});
+                      }, 100);
+                    }}
+                    onSubmitEditing={() => {
+                        // Trigger login when Enter is pressed on username field
+                        if (username && password) {
+                          handleLogin();
+                        } else {
+                          // Focus password field if password is empty
+                          passwordInputRef.current?.focus();
+                        }
+                      }}
                   />
                 </View>
                 {usernameError ? (
@@ -205,6 +225,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
                 <Text style={styles.inputLabel}>Password</Text>
                 <View style={styles.inputWrapper}>
                   <TextInput
+                    ref={passwordInputRef}
                     style={styles.input}
                     placeholder="Enter password"
                     value={password}
@@ -213,6 +234,14 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
                     autoCapitalize="none"
                     autoCorrect={false}
                     editable={!isLoading}
+                    returnKeyType="done"
+                    onFocus={() => {
+                      // Auto scroll when password field is focused to ensure it's visible
+                      setTimeout(() => {
+                        scrollViewRef.current?.scrollTo({y: hp(30), animated: true});
+                      }, 100);
+                    }}
+                    onSubmitEditing={handleLogin}
                   />
                   <TouchableOpacity
                     style={styles.eyeIcon}
@@ -265,7 +294,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
               </View> */}
             </View>
           </View>
-        {/* </ScrollView> */}
+        </ScrollView>
       </LinearGradient>
     </KeyboardAvoidingView>
   );
