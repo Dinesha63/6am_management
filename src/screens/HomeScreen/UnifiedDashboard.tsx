@@ -231,14 +231,15 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
         ?.storeCode || '';
     if (storeCode) {
       Promise.all([
-        dispatch(fetchTodayDeliverySummaryByProduct(storeCode || '')),
-        dispatch(fetchTodayDeliverySummaryByProductSKU(storeCode || '')),
-        dispatch(fetchTodayDeliveryList(storeCode || '')),
-        dispatch(fetchStoreList()),
-        dispatch(fetchTomorrowDeliverySummaryByProduct(storeCode || '')),
+        dispatch(fetchTodayDeliverySummaryByProduct(storeCode=="ALL" ? "" : storeCode)),
+        dispatch(fetchTodayDeliverySummaryByProductSKU(storeCode == "ALL" ? "" : storeCode)),
+        dispatch(fetchTodayDeliveryList(storeCode == "ALL" ? "" : storeCode)),
+        // dispatch(fetchStoreList()),
+        dispatch(fetchTomorrowDeliverySummaryByProduct(storeCode == "ALL" ? "" : storeCode)),
       ]);
     }
-  }, [selectedLocation, dispatch]);
+    setSelectedLocation(selectedLocation);
+  }, [ selectedLocation]);
 
   return (
     <View style={styles.container}>
