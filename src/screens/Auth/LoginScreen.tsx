@@ -276,23 +276,6 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
                 )}
               </TouchableOpacity>
 
-              {/* <View style={styles.demoContainer}>
-                <Text style={styles.demoTitle}>Demo Credentials:</Text>
-                <View style={styles.demoItem}>
-                  <Text style={styles.demoLabel}>Super Admin:</Text>
-                  <Text style={styles.demoCredential}>
-                    {adminCredentials.superAdmin.username} /{' '}
-                    {adminCredentials.superAdmin.password}
-                  </Text>
-                </View>
-                <View style={styles.demoItem}>
-                  <Text style={styles.demoLabel}>Admin:</Text>
-                  <Text style={styles.demoCredential}>
-                    {adminCredentials.admin.username} /{' '}
-                    {adminCredentials.admin.password}
-                  </Text>
-                </View>
-              </View> */}
             </View>
           </View>
         </ScrollView>
@@ -340,7 +323,7 @@ const styles = StyleSheet.create({
     color: Colors.black,
   },
   bottomHalf: {
-    flex: 6,
+    flex: 2,
     backgroundColor: Colors.background,
     borderTopEndRadius: wp(12),
     borderTopLeftRadius: wp(12),
@@ -352,18 +335,18 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   title: {
-    fontSize: sp(28),
+    fontSize: sp(22),
     fontFamily: FontFamily.BOLD,
     color: Colors.black,
     marginBottom: hp(1),
     textAlign: 'center',
   },
   subtitle: {
-    fontSize: sp(18),
+    fontSize: sp(16),
     fontFamily: FontFamily.REGULAR,
     color: Colors.grey,
     textAlign: 'center',
-    marginBottom: hp(3),
+    marginBottom: hp(2),
   },
   formContainer: {
     flex: 1,
@@ -372,10 +355,11 @@ const styles = StyleSheet.create({
     marginBottom: hp(2),
   },
   inputLabel: {
-    fontSize: sp(16),
+    fontSize: sp(14),
     fontFamily: FontFamily.MEDIUM,
     color: Colors.black,
-    marginBottom: hp(1),
+    marginBottom: hp(0.5),
+    marginLeft: wp(2),
   },
   inputWrapper: {
     flexDirection: 'row',
@@ -389,19 +373,19 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    fontSize: sp(16),
+    fontSize: sp(14),
     fontFamily: FontFamily.REGULAR,
     color: Colors.black,
   },
   eyeIcon: {
-    padding: wp(1),
+    padding: wp(2),
   },
   eyeIconText: {
     fontSize: sp(18),
   },
   errorText: {
     color: 'red',
-    fontSize: sp(12),
+    fontSize: sp(11),
     marginTop: hp(0.5),
     marginLeft: wp(1),
   },
@@ -410,39 +394,12 @@ const styles = StyleSheet.create({
     borderRadius: wp(2.5),
     alignItems: 'center',
     marginTop: hp(2),
-    marginBottom: hp(4),
+    // marginBottom: hp(4),
   },
   loginButtonText: {
     color: Colors.white,
     fontSize: sp(18),
     fontFamily: FontFamily.BOLD,
   },
-  // demoContainer: {
-  //   backgroundColor: Colors.greyBackground,
-  //   padding: wp(4),
-  //   borderRadius: wp(2.5),
-  //   marginTop: hp(2),
-  // },
-  // demoTitle: {
-  //   fontSize: sp(16),
-  //   fontFamily: FontFamily.MEDIUM,
-  //   color: Colors.black,
-  //   marginBottom: hp(1.5),
-  //   textAlign: 'center',
-  // },
-  // demoItem: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-between',
-  //   marginBottom: hp(1),
-  // },
-  // demoLabel: {
-  //   fontSize: sp(14),
-  //   fontFamily: FontFamily.MEDIUM,
-  //   color: Colors.black,
-  // },
-  // demoCredential: {
-  //   fontSize: sp(14),
-  //   fontFamily: FontFamily.REGULAR,
-  //   color: Colors.grey,
-  // },
+
 });
