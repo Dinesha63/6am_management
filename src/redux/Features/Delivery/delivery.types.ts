@@ -51,3 +51,14 @@ export interface DeliveryDetail {
   productSkuName: string;
   quantity: number;
 }
+export interface UpdateOrderStatusRequest {
+  orderId: string;
+  orderStatus: string;
+}
+
+export interface UpdateOrderStatusResponse {
+  success: boolean;
+  errors: string[];
+  data: boolean;
+  statusCode: number | null;
+}

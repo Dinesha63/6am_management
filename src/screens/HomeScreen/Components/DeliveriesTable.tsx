@@ -1,6 +1,15 @@
-// DeliveriesTable.tsx
-import React from "react";
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from "react-native";
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  TouchableWithoutFeedback,
+} from 'react-native';
+import {imagePaths} from '../../../utils/constants/imagePaths';
+import {wp} from '../../../utils/constants/responsive';
 
 interface DeliveryDetail {
   productSkuCode: string;
@@ -10,76 +19,82 @@ interface DeliveryDetail {
 
 interface DeliveryItem {
   customerId: string;
-    customerName: string;
-    phoneNumber: string;
-    storeCode: string | null;
-    addressLine1: string | null;
-    addressLine2: string | null;
-    pincode: string | null;
-    deliveryDetail: DeliveryDetail[]; 
-    orderId: string;
-    orderNo: string;
-    orderStatus: string;
-    orderDate: string;     
-    deliveredDate: string | null;  
-    cancelledDate: string | null;
+  customerName: string;
+  phoneNumber: string;
+  storeCode: string | null;
+  addressLine1: string | null;
+  addressLine2: string | null;
+  pincode: string | null;
+  deliveryDetail: DeliveryDetail[];
+  orderId: string;
+  orderNo: string;
+  orderStatus: string;
+  orderDate: string;
+  deliveredDate: string | null;
+  cancelledDate: string | null;
 }
 
 interface DeliveriesTableProps {
   data: DeliveryItem[];
-  role: "admin" | "superAdmin";
-  onUpdateStatus?: (orderId: string, status: string) => void;
+  role: 'admin' | 'superAdmin';
+  onUpdateStatus?: (orderId: string, status: string, orderNo: string) => void;
   onStoreChange?: (store: string) => void;
   onExport?: () => void;
   selectedStore?: string;
 }
 
-const DeliveriesTable: React.FC<DeliveriesTableProps> = ({ 
-  data, 
-  role, 
-  onUpdateStatus, 
-  onStoreChange, 
-  onExport, 
-  selectedStore = "All Stores" 
+const DeliveriesTable: React.FC<DeliveriesTableProps> = ({
+  data,
+  role,
+  onUpdateStatus,
+  onStoreChange,
+  onExport,
+  selectedStore = 'All Stores',
 }) => {
+  const [activeDropdownId, setActiveDropdownId] = useState<string | null>(null);
+  console.log(data, '69jhjkjj');
   if (!data || data.length === 0) {
     return <Text style={styles.emptyText}>No deliveries found</Text>;
   }
-  console.log(data, 'Deliveries Data');
 
   const getStatusBadge = (status: string) => {
     switch (status.toLowerCase()) {
-      case 'completed':
-        return { text: 'completed', color: '#4CAF50' };
+      case 'delivered':
+        return {text: 'Delivered', color: '#4CAF50'};
       case 'pending':
       case 'inprogress':
-        return { text: 'pending', color: '#FF9800' };
-      case 'skipped':
-        return { text: 'skipped', color: '#F44336' };
+        return {text: 'In Progress', color: '#FF9800'};
+      case 'cancelled':
+        return {text: 'Cancelled', color: '#F44336'};
       default:
-        return { text: status, color: '#757575' };
+        return {text: status, color: '#757575'};
     }
   };
 
   const formatTime = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleTimeString('en-US', { 
-      hour: '2-digit', 
+    return date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
       minute: '2-digit',
-      hour12: true 
+      hour12: true,
     });
   };
 
   // Calculate status counts
   const getStatusCounts = () => {
-    const completed = data.filter(item => item.orderStatus.toLowerCase() === 'completed').length;
-    const pending = data.filter(item => 
-      item.orderStatus.toLowerCase() === 'pending' || 
-      item.orderStatus.toLowerCase() === 'inprogress'
+    const completed = data.filter(
+      item => item.orderStatus.toLowerCase() === 'delivered',
     ).length;
-    const skipped = data.filter(item => item.orderStatus.toLowerCase() === 'skipped').length;
-    
-    return { completed, pending, skipped };
+    const pending = data.filter(
+      item =>
+        item.orderStatus.toLowerCase() === 'pending' ||
+        item.orderStatus.toLowerCase() === 'inprogress',
+    ).length;
+    const skipped = data.filter(
+      item => item.orderStatus.toLowerCase() === 'skipped',
+    ).length;
+
+    return {completed, pending, skipped};
   };
 
   const statusCounts = getStatusCounts();
@@ -87,63 +102,83 @@ const DeliveriesTable: React.FC<DeliveriesTableProps> = ({
   return (
     <View style={styles.container}>
       {/* Top Navigation Bar - Only for SuperAdmin */}
-      {role === "superAdmin" && (
+      {role === 'superAdmin' && (
         <View style={styles.topNavContainer}>
           <View style={styles.titleContainer}>
             <Text style={styles.deliveryIcon}>📦</Text>
             <Text style={styles.titleText}>Delivery Tracking</Text>
           </View>
           <View style={styles.actionsContainer}>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.storeSelector}
-              onPress={() => onStoreChange?.(selectedStore)}
-            >
+              onPress={() => onStoreChange?.(selectedStore)}>
               <Text style={styles.storeSelectorIcon}>📍</Text>
-              <Text style={styles.storeSelectorText}>{selectedStore}</Text>
+              <Text style={styles.storeSelectorText}>
+                {selectedStore || 'All Stores'}
+              </Text>
               <Text style={styles.dropdownIcon}>▼</Text>
             </TouchableOpacity>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.exportButton}
-              onPress={() => onExport?.()}
-            >
+              onPress={() => onExport?.()}>
               <Text style={styles.exportIcon}>📤</Text>
               <Text style={styles.exportText}>Export</Text>
             </TouchableOpacity>
           </View>
         </View>
       )}
-      
+
       {/* Header Section */}
       <View style={styles.headerContainer}>
         <View style={styles.locationContainer}>
           <Text style={styles.locationIcon}>📍</Text>
-          <Text style={styles.locationText}>{selectedStore}</Text>
+          <Text style={styles.locationText}>
+            {selectedStore || 'All Stores'}
+          </Text>
         </View>
         <View style={styles.statusSummary}>
           <View style={styles.statusItem}>
-            <Text style={[styles.statusCount, { color: '#4CAF50' }]}>{statusCounts.completed}</Text>
-            <Text style={[styles.statusLabel, { color: '#4CAF50' }]}>Completed</Text>
+            <Text style={[styles.statusCount, {color: '#4CAF50'}]}>
+              {statusCounts.completed}
+            </Text>
+            <Text style={[styles.statusLabel, {color: '#4CAF50'}]}>
+              Completed
+            </Text>
           </View>
           <View style={styles.statusItem}>
-            <Text style={[styles.statusCount, { color: '#FF9800' }]}>{statusCounts.pending}</Text>
-            <Text style={[styles.statusLabel, { color: '#FF9800' }]}>Pending</Text>
+            <Text style={[styles.statusCount, {color: '#FF9800'}]}>
+              {statusCounts.pending}
+            </Text>
+            <Text style={[styles.statusLabel, {color: '#FF9800'}]}>
+              Pending
+            </Text>
           </View>
           <View style={styles.statusItem}>
-            <Text style={[styles.statusCount, { color: '#F44336' }]}>{statusCounts.skipped}</Text>
-            <Text style={[styles.statusLabel, { color: '#F44336' }]}>Skipped</Text>
+            <Text style={[styles.statusCount, {color: '#F44336'}]}>
+              {statusCounts.skipped}
+            </Text>
+            <Text style={[styles.statusLabel, {color: '#F44336'}]}>
+              Skipped
+            </Text>
           </View>
         </View>
       </View>
-      
+
       <FlatList
         data={data}
-        keyExtractor={(item) => item.orderId}
+        keyExtractor={item => item.orderId}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => {
+        renderItem={({item}) => {
           const statusBadge = getStatusBadge(item.orderStatus);
-          
+
           return (
             <View style={styles.deliveryCard}>
+              {activeDropdownId && (
+                <TouchableWithoutFeedback
+                  onPress={() => setActiveDropdownId(null)}>
+                  <View style={[styles.overlay, {zIndex: 5}]} />
+                </TouchableWithoutFeedback>
+              )}
               <View style={styles.cardHeader}>
                 <View style={styles.customerInfo}>
                   <Text style={styles.customerName}>{item.customerName}</Text>
@@ -152,16 +187,74 @@ const DeliveriesTable: React.FC<DeliveriesTableProps> = ({
                     {item.addressLine2 && <Text>{item.addressLine2}</Text>}
                   </Text>
                 </View>
+
                 <View style={styles.timeAndStatus}>
                   <Text style={styles.timeText}>
                     {formatTime(item.orderDate)}
                   </Text>
-                  <View style={[styles.statusBadge, { backgroundColor: statusBadge.color }]}>
+                  <View
+                    style={[
+                      styles.statusBadge,
+                      {backgroundColor: statusBadge.color},
+                    ]}>
                     <Text style={styles.statusText}>{statusBadge.text}</Text>
                   </View>
+
+                  {/* Show settings only if status is Inprogress */}
+                  {role === 'admin' && item.orderStatus.toLowerCase() === 'inprogress' && (
+                    <>
+                      {/* Settings Icon */}
+                      <TouchableOpacity
+                        style={styles.settingsIcon}
+                        onPress={() =>
+                          setActiveDropdownId(
+                            activeDropdownId === item.orderId
+                              ? null
+                              : item.orderId,
+                          )
+                        }>
+                        <Image
+                          source={imagePaths.skip_completed_icon}
+                          style={{width: 22, height: 22, tintColor: '#111111'}}
+                          resizeMode="contain"
+                        />
+                      </TouchableOpacity>
+
+                      {/* Dropdown Menu */}
+                      {activeDropdownId === item.orderId && (
+                        <View style={styles.dropdownMenu}>
+                          <TouchableOpacity
+                            onPress={() => {
+                              setActiveDropdownId(null);
+                              onUpdateStatus?.(
+                                item.orderId,
+                                'Delivered',
+                                item.orderNo,
+                              );
+                            }}>
+                            <Text style={styles.dropdownItem}>Delivered</Text>
+                          </TouchableOpacity>
+
+                          <View style={styles.dropdownDivider} />
+
+                          <TouchableOpacity
+                            onPress={() => {
+                              setActiveDropdownId(null);
+                              onUpdateStatus?.(
+                                item.orderId,
+                                'Cancelled',
+                                item.orderNo,
+                              );
+                            }}>
+                            <Text style={styles.dropdownItem}>Cancelled</Text>
+                          </TouchableOpacity>
+                        </View>
+                      )}
+                    </>
+                  )}
                 </View>
               </View>
-              
+
               <View style={styles.productsList}>
                 {item.deliveryDetail.map((product, index) => (
                   <Text key={index} style={styles.productItem}>
@@ -309,7 +402,6 @@ const styles = StyleSheet.create({
     padding: 16,
     borderColor: '#d5d9e0',
     borderWidth: 1,
-
   },
   cardHeader: {
     flexDirection: 'row',
@@ -348,7 +440,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#ffffff',
     fontWeight: '500',
-    textTransform: 'lowercase',
+    // textTransform: 'lowercase',
+    width: '100%',
   },
   productsList: {
     flexDirection: 'row',
@@ -368,6 +461,48 @@ const styles = StyleSheet.create({
     marginTop: 40,
     fontSize: 16,
     color: '#666',
+  },
+  settingsIcon: {
+    // width: 36,
+    // height: 36,
+    marginTop: 8,
+    marginRight: 14,
+    backgroundColor: '#ffffff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#111111',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.12,
+    shadowRadius: 4,
+    // elevation: 4,
+  },
+  dropdownMenu: {
+    position: 'absolute',
+    width: wp(28),
+    top: 30,
+    right: 0,
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 6,
+    padding: 5,
+    zIndex: 20,
+    elevation: 6,
+  },
+  dropdownItem: {
+    padding: 6,
+    fontSize: 14,
+    color: '#333',
+  },
+  dropdownDivider: {
+    height: 1,
+    backgroundColor: '#eee',
+    marginVertical: 4,
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'transparent',
+    zIndex: 5,
   },
 });
 

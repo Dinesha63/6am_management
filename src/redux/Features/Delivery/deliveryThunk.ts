@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { DeliverySummaryByProduct, DeliverySummaryByProductSku, GetTodayDeliverySummaryByProductResponse, GetTodayDeliverySummaryBySkuResponse, TodayDelivery, TodayDeliveryListResponse } from "./delivery.types";
-import { getTodayDeliveryListAPI, getTodayDeliverySummaryByProductAPI, getTodayDeliverySummaryByProductSKUAPI, getTomorrowDeliverySummaryByProductAPI } from "./delivery.api";
+import { DeliverySummaryByProduct, DeliverySummaryByProductSku, GetTodayDeliverySummaryByProductResponse, GetTodayDeliverySummaryBySkuResponse, TodayDelivery, TodayDeliveryListResponse, UpdateOrderStatusRequest, UpdateOrderStatusResponse } from "./delivery.types";
+import { getTodayDeliveryListAPI, getTodayDeliverySummaryByProductAPI, getTodayDeliverySummaryByProductSKUAPI, getTomorrowDeliverySummaryByProductAPI, updateOrderStatusAPI } from "./delivery.api";
 
 export const fetchTodayDeliverySummaryByProduct = createAsyncThunk<
   DeliverySummaryByProduct[], 
@@ -51,3 +51,20 @@ export const fetchTodayDeliveryList = createAsyncThunk<
     return rejectWithValue(error.message || 'Failed to fetch delivery list');
   }
 });
+
+export const updateOrderStatus = createAsyncThunk<
+  UpdateOrderStatusResponse,       
+  UpdateOrderStatusRequest,       
+  { rejectValue: string }          
+>(
+  'delivery/updateOrderStatus',
+  async (payload, { rejectWithValue }) => {
+    console.log('🚚 [API CALL] updateOrderStatus started...', payload);
+    
+    try {
+      return await updateOrderStatusAPI(payload);
+    } catch (err: any) {
+      return rejectWithValue(err.message || 'Failed to update order status');
+    }
+  }
+);

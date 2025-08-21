@@ -1,6 +1,6 @@
 // deliveryAPI.ts
 import API from '../../../services/api';
-import { GetTodayDeliverySummaryByProductResponse, GetTodayDeliverySummaryBySkuResponse, TodayDeliveryListResponse } from './delivery.types';
+import { GetTodayDeliverySummaryByProductResponse, GetTodayDeliverySummaryBySkuResponse, TodayDeliveryListResponse, UpdateOrderStatusRequest, UpdateOrderStatusResponse } from './delivery.types';
 
 export const getTodayDeliverySummaryByProductAPI = async (
   storeCode: string
@@ -67,4 +67,13 @@ export const getTodayDeliveryListAPI = async (
     console.error('❌ [API ERROR] Failed to fetch today delivery list:', error);
     throw error;
   }
+};
+
+export const updateOrderStatusAPI = async (
+  payload: UpdateOrderStatusRequest
+): Promise<UpdateOrderStatusResponse> => {
+  const response = await API.post('/Delivery/UpdateOrderStatus',
+    payload
+  );
+  return response.data;
 };

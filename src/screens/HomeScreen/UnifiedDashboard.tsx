@@ -26,11 +26,13 @@ import {
   fetchTodayDeliverySummaryByProduct,
   fetchTodayDeliverySummaryByProductSKU,
   fetchTomorrowDeliverySummaryByProduct,
+  updateOrderStatus,
 } from '../../redux/Features/Delivery/deliveryThunk';
 import {selectDelivery} from '../../redux/Features/Delivery/deliverySlice';
 import {fetchStoreList} from '../../redux/Features/6amStore/storeThunk';
 import {selectStoreState} from '../../redux/Features/6amStore/storeSlice';
-import { StoreItem } from '../../redux/Features/6amStore/store.types';
+import {StoreItem} from '../../redux/Features/6amStore/store.types';
+import ConfirmationModal from './Components/ConfirmationModel';
 
 interface UnifiedDashboardProps {
   userRole: 'admin' | 'superAdmin';
@@ -39,6 +41,7 @@ interface UnifiedDashboardProps {
 const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
   console.log('userRole:', userRole);
   const [selectedLocation, setSelectedLocation] = useState<string>('Vedapatti');
+  const [selectedLocationCode, setSelectedLocationCode] = useState<string>('');
   const [activeTab, setActiveTab] = useState(
     userRole === 'admin' ? 'products' : 'products',
   );
@@ -47,6 +50,13 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
   const [dashboardData, setDashboardData] = useState(
     DashboardDataService.getInstance().getDashboardData(),
   );
+  const [confirmVisible, setConfirmVisible] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState<{
+    id: string;
+    status: string;
+    orderNo: string;
+  } | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
   const dispatch = useAppDispatch();
   const dataService = DashboardDataService.getInstance();
   const {
@@ -63,20 +73,20 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
     'deliverySummaryByProduct, deliverySummaryByProductSku, todayDeliveryList',
   );
   const {stores} = useSelector(selectStoreState);
-const storesWithAll: StoreItem[] = [
-  {
-    storeId: "all",
-    storeCode: "ALL",
-    storeName: "All",
-    latitude: "",
-    longitude: "",
-    imageUrl: "",
-    address: "",
-  },
-  ...stores,
-];
+  const storesWithAll: StoreItem[] = [
+    {
+      storeId: 'all',
+      storeCode: 'ALL',
+      storeName: 'All',
+      latitude: '',
+      longitude: '',
+      imageUrl: '',
+      address: '',
+    },
+    ...stores,
+  ];
 
-  console.log(stores, '4567890njm');
+  console.log(stores, confirmVisible, '4567890njm');
   useEffect(() => {
     loadDashboardData();
   }, []);
@@ -146,6 +156,37 @@ const storesWithAll: StoreItem[] = [
     }
   };
 
+  const handleUpdateStatus = (
+    orderId: string,
+    status: string,
+    orderNo: string,
+  ) => {
+    console.log('Updating order', orderId, 'to', status);
+    setSelectedOrder({id: orderId, status, orderNo});
+    setConfirmVisible(true);
+  };
+
+  const confirmUpdate = async () => {
+    if (!selectedOrder) return;
+    setIsProcessing(true);
+    try {
+      await dispatch(
+        updateOrderStatus({
+          orderId: selectedOrder.id,
+          orderStatus: selectedOrder.status,
+        }),
+      );
+      console.log('Order updated successfully');
+    } catch (error: any) {
+      console.error('Failed to update order', error);
+    } finally {
+      setIsProcessing(false);
+      setConfirmVisible(false);
+      setSelectedOrder(null);
+      dispatch(fetchTodayDeliveryList(selectedLocationCode || ''));
+    }
+  };
+
   const tabs = getTabs();
   useEffect(() => {
     const fetchData = async () => {
@@ -176,6 +217,7 @@ const storesWithAll: StoreItem[] = [
         );
         console.log(selectedStore, '<-- selectedStore');
         setSelectedLocation(selectedStore?.storeName || '');
+        setSelectedLocationCode(storeCode || '');
       }
     };
 
@@ -184,17 +226,18 @@ const storesWithAll: StoreItem[] = [
     }
   }, [stores]);
   useEffect(() => {
-    let storeCode=storesWithAll.find(store => store.storeName === selectedLocation)?.storeCode || '';
-    if(storeCode) {
+    let storeCode =
+      storesWithAll.find(store => store.storeName === selectedLocation)
+        ?.storeCode || '';
+    if (storeCode) {
       Promise.all([
         dispatch(fetchTodayDeliverySummaryByProduct(storeCode || '')),
         dispatch(fetchTodayDeliverySummaryByProductSKU(storeCode || '')),
         dispatch(fetchTodayDeliveryList(storeCode || '')),
         dispatch(fetchStoreList()),
-        dispatch(fetchTomorrowDeliverySummaryByProduct(storeCode || ''))
+        dispatch(fetchTomorrowDeliverySummaryByProduct(storeCode || '')),
       ]);
     }
-
   }, [selectedLocation, dispatch]);
 
   return (
@@ -302,10 +345,7 @@ const storesWithAll: StoreItem[] = [
           <DeliveriesTable
             role={userRole}
             data={todayDeliveryList.length > 0 ? todayDeliveryList : []}
-            onUpdateStatus={(orderId, status) => {
-              console.log('Update order', orderId, 'to', status);
-              // call API here to update delivery status
-            }}
+            onUpdateStatus={handleUpdateStatus}
             selectedStore={selectedLocation}
           />
         )}
@@ -354,6 +394,16 @@ const storesWithAll: StoreItem[] = [
           </View>
         )}
       </ScrollView>
+      <ConfirmationModal
+        visible={confirmVisible}
+        message={`Are you sure you want to update order ${selectedOrder?.orderNo} to ${selectedOrder?.status}?`}
+        onCancel={() => {
+          setConfirmVisible(false);
+          setSelectedOrder(null);
+        }}
+        onConfirm={confirmUpdate}
+        isProcessing={isProcessing}
+      />
     </View>
   );
 };

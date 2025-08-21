@@ -80,6 +80,7 @@ export const imagePaths = {
   briefcase_icon: require('../../assets/images/Help_Subscribtion.png'),
   home_icon: require('../../assets/images/Help_Subscribtion.png'),
   person_icon: require('../../assets/images/Help_Subscribtion.png'),
-  location_icon: require('../../assets/images/Help_Subscribtion.png'), 
-  arrow_right_icon: require('../../assets/images/right_arrow.png')
+  location_icon: require('../../assets/images/Help_Subscribtion.png'),
+  arrow_right_icon: require('../../assets/images/right_arrow.png'),
+  skip_completed_icon: require('../../assets/images/setting.png'),
 };
