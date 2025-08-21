@@ -153,12 +153,12 @@ const ProductsTable: React.FC<ProductsTableProps> = ({
                   locationData={locationData}
                 />
               </TouchableOpacity>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 style={styles.exportButton}
                 onPress={() => onExport?.()}>
                 <Text style={styles.exportIcon}>📤</Text>
                 <Text style={styles.exportText}>Export</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           </View>
         </ScrollView>

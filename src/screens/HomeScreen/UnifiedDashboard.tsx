@@ -40,7 +40,7 @@ interface UnifiedDashboardProps {
 
 const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
   console.log('userRole:', userRole);
-  const [selectedLocation, setSelectedLocation] = useState<string>('Vedapatti');
+  const [selectedLocation, setSelectedLocation] = useState<string>('All Stores');
   const [selectedLocationCode, setSelectedLocationCode] = useState<string>('');
   const [activeTab, setActiveTab] = useState(
     userRole === 'admin' ? 'products' : 'products',
@@ -216,8 +216,8 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
           store => store.storeCode === storeCode,
         );
         console.log(selectedStore, '<-- selectedStore');
-        setSelectedLocation(selectedStore?.storeName || '');
-        setSelectedLocationCode(storeCode || '');
+        setSelectedLocation(selectedStore?.storeName || 'All Stores');
+        setSelectedLocationCode(storeCode || 'ALL');
       }
     };
 

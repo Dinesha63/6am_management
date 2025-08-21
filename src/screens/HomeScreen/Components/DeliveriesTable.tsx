@@ -109,21 +109,21 @@ const DeliveriesTable: React.FC<DeliveriesTableProps> = ({
             <Text style={styles.titleText}>Delivery Tracking</Text>
           </View>
           <View style={styles.actionsContainer}>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.storeSelector}
-              onPress={() => onStoreChange?.(selectedStore)}>
+              onPress={() => onStoreChange?.(selectedStore)}> */}
               <Text style={styles.storeSelectorIcon}>📍</Text>
               <Text style={styles.storeSelectorText}>
                 {selectedStore || 'All Stores'}
               </Text>
-              <Text style={styles.dropdownIcon}>▼</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
+              {/* <Text style={styles.dropdownIcon}>▼</Text> */}
+            {/* </TouchableOpacity> */}
+            {/* <TouchableOpacity
               style={styles.exportButton}
               onPress={() => onExport?.()}>
               <Text style={styles.exportIcon}>📤</Text>
               <Text style={styles.exportText}>Export</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
       )}
@@ -318,8 +318,8 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 6,
     marginRight: 12,
-    borderWidth: 1,
-    borderColor: '#e9ecef',
+    // borderWidth: 1,
+    // borderColor: '#e9ecef',
   },
   storeSelectorIcon: {
     fontSize: 14,

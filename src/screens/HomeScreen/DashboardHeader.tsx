@@ -69,7 +69,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             disabled={userRole !== 'superAdmin'} // block press for admin
           >
             <Text style={styles.locationText}>
-              {selectedLocation || 'Select Location'}
+              {selectedLocation || 'All Stores'}
             </Text>
             <SimpleIcon
               source={imagePaths.Location_Icon}
