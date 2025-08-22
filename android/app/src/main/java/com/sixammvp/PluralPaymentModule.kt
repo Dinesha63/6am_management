@@ -1,4 +1,4 @@
-package com.sixammvp
+package com.sixammanagement
 
 import android.widget.Toast
 import com.facebook.react.bridge.Arguments

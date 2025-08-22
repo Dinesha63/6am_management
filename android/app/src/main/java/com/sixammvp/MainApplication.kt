@@ -1,4 +1,4 @@
-package com.sixammvp
+package com.sixammanagement
 
 import android.app.Application
 import com.facebook.react.PackageList

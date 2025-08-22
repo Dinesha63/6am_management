@@ -5,7 +5,7 @@
     <application
         android:usesCleartextTraffic="true"
         tools:targetApi="28"
-        android:name="com.sixammvp.MainApplication"
+        android:name="com.sixammanagement.MainApplication"
         tools:replace="android:name"
         tools:ignore="GoogleAppIndexingWarning"/>
 </manifest>
