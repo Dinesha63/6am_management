@@ -117,7 +117,7 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
   };
 
   const handleCardPress = (cardType: string) => {
-    Alert.alert('Card Pressed', `${cardType} card was pressed`);
+    // Alert.alert('Card Pressed', `${cardType} card was pressed`);
   };
 
   const handleActionPress = async (dispatch: AppDispatch) => {
@@ -251,10 +251,10 @@ const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({userRole}) => {
         userRole={userRole}
       />
 
-      <SummaryCards onCardPress={handleCardPress} userRole={userRole} />
+      {/* <SummaryCards onCardPress={handleCardPress} userRole={userRole} /> */}
 
       {/* SuperAdmin specific: Deliveries Today Card */}
-      {userRole === 'superAdmin' && <DeliveriesCard />}
+      {/* {userRole === 'superAdmin' && <DeliveriesCard />} */}
 
       <DashboardTabs
         activeTab={activeTab}

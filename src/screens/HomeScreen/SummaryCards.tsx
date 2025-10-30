@@ -28,6 +28,7 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
   onPress,
 }) => (
   <TouchableOpacity
+  disabled
     style={[styles.card, {backgroundColor}]}
     onPress={onPress}
     activeOpacity={0.8}>
